@@ -1,0 +1,32 @@
+stages:
+  - build
+  - deploy
+  - automation
+
+build_app:
+  stage: build
+  dependencies: []
+  tags:
+    - exchange
+  script:
+    - npm install @vue/cli
+    - npm run build-prod
+  artifacts:
+    paths:
+      - dist_prod/
+  only:
+    - preprod
+
+deploy:stand:
+  stage: deploy
+  dependencies:
+    - build_app
+  tags:
+    - exchange
+  script:
+    - npm install @vue/cli
+    - npm run build-prod
+    - docker ps -aq --filter "name=coinsoon-web2" | grep -q . && docker stop coinsoon-web2 && docker rm coinsoon-web2
+    - docker run --restart unless-stopped -d --name coinsoon-web2 -p 8084:8080  -v ${PWD}/dist_prod:/usr/local/tomcat/webapps/ROOT tomcat:9.0-jre8-alpine
+  only:
+    - dev
