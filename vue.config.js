@@ -15,17 +15,6 @@ module.exports = {
   outputDir: process.env.VUE_APP_OUTPUTDIR, // 根据环境去打包
   // 生产环境的 source map，加速生产环境构建
   productionSourceMap: false,
-  css: {
-    loaderOptions: {
-      postcss: {
-        plugins: [
-          pxtoviewport({
-            viewportWidth: 375 //设计稿的视口宽度
-          })
-        ]
-      }
-    }
-  },
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',

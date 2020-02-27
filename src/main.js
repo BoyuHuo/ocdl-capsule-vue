@@ -1,23 +1,9 @@
-// import Vue from 'vue'
-// import App from '@/App.vue'
-// import router from '@/router'
-// import store from '@/store'
-
-// // 全局样式
-// import '@/styles/main.css'
-
-// //关闭生产模式下给出的提示
-// Vue.config.productionTip = false
-
-// new Vue({
-//   router,
-//   store,
-//   render: h => h(App)
-// }).$mount('#app')
 
 import Vue from 'vue'
 import App from '@/App.vue'
-import Vant from 'vant'
+//import Vant from 'vant'
+import Element from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import router from '@/router'
 import store from '@/store'
 import * as requests from '@/utils/requests'
@@ -36,11 +22,13 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+Vue.use(Element, { size: 'small', zIndex: 2000 });
+
 Vue.prototype.$requests = requests
 
 //关闭生产模式下给出的提示
 Vue.config.productionTip = false
-Vue.use(Vant)
+//Vue.use(Vant)
 Vue.use(VCharts)
 Vue.use(VueClipboard)
 

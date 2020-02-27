@@ -1,75 +1,53 @@
 <template>
-  <section id="login">
-    <van-row style="padding-top:100px; padding-bottom:50px">
-      <van-col span="4"></van-col>
-      <van-col span="16">
-        <img src="" width="100%" />
-      </van-col>
-      <van-col span="4"></van-col>
-    </van-row>
+  <section style="text-align:center">
+    <el-row style="margin-top:90px;">
+      <el-col :span="16" :offset="4">
+        <el-card class="box-card" style="height:600px">
+          <el-row>
+            <el-col :span="12">
+              <el-carousel height="550px">
+                <el-carousel-item v-for="item in 4" :key="item">
+                  <h3 class="small">{{ item }}</h3>
+                </el-carousel-item>
+              </el-carousel>
+            </el-col>
 
-    <van-tabs v-model="active">
-      <van-tab title="手机登录" name="phone">
-        <van-field v-model="phone.phone" type="tel" left-icon="phone-o" placeholder="请输入手机号">
-          <label slot="label">
-            手机号
-            <span style="color:#9B9B9B">+86</span>
-          </label>
-        </van-field>
-        <van-field
-          v-model="phone.password"
-          type="password"
-          label="密码"
-          left-icon="closed-eye"
-          placeholder="密码"
-        />
-      </van-tab>
-      <van-tab title="邮箱登录" name="email">
-        <van-field v-model="email.username" label="邮箱" left-icon="envelop-o" placeholder="请输入邮箱账号" />
-        <van-field
-          v-model="email.password"
-          left-icon="closed-eye"
-          type="password"
-          label="密码1"
-          placeholder="密码"
-        />
-      </van-tab>
-    </van-tabs>
-    <div style="margin-top:8rem">
-      <van-row style="margin-bottom:2rem">
-        <van-col span="12" offset="6">
-          <van-button type="info" @click="login" color="#FFC02B" size="large">
-            <h3 style="color:#525252; font-weight:bold">登录</h3>
-          </van-button>
-        </van-col>
-      </van-row>
-      <van-grid :border="false" :column-num="3">
-        <van-grid-item>
-          <van-button is-link to="register">免费注册</van-button>
-        </van-grid-item>
-        <van-grid-item></van-grid-item>
-        <van-grid-item>
-          <van-button is-link to="fpwd_email">忘记密码</van-button>
-        </van-grid-item>
-      </van-grid>
-      <van-row :border="false">
-        <van-col span="4" offset="20">
-          <h5 style="color:gray">{{$store.getters.version}}</h5>
-        </van-col>
-      </van-row>
-    </div>
+            <el-col :span="12">
+              <div
+                style="  display: flex;
+            justify-content: center;
+            align-items: Center;"
+              >
+                <el-form ref="form" :model="form" style="width:80%;" label-width="80px">
+                  <el-form-item label="Username">
+                    <el-input placeholder="Enter your username" v-model="input"></el-input>
+                  </el-form-item>
+                  <el-form-item label="Password">
+                    <el-input placeholder="Enter your password" v-model="input"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="onSubmit">Sign In</el-button>
+                    <el-button>Sign Up</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
   </section>
 </template>
 
 <script>
 import * as loginApi from '@/api/login'
-import { Toast } from 'vant'
 
 export default {
   name: 'login',
   data() {
     return {
       active: 'email',
+      images: [require('../../assets/img/logo.png'), require('../../assets/img/logo.png')],
       email: {
         username: '',
         password: '',
@@ -131,9 +109,19 @@ export default {
 </script>
 
 <style scoped>
-#login {
-  background-color: #ffffff;
-  color: gold;
-  height: 100%;
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>
