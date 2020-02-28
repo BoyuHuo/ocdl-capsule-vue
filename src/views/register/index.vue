@@ -15,7 +15,7 @@
             <el-col :span="12" style="padding-left:10px">
               <div
                 class="block"
-                style="height:12rem; display: flex;
+                style="height:8rem; display: flex;
             justify-content: center;
             align-items: Center;"
               >
@@ -24,7 +24,7 @@
                   :src="require('../../assets/img/ocdl.png')"
                 ></el-image>
               </div>
-              <el-divider content-position="left">Sign In</el-divider>
+              <el-divider content-position="left">Sign Up</el-divider>
               <div
                 style="  display: flex;
             justify-content: center;
@@ -40,6 +40,13 @@
                   </el-form-item>
                   <el-form-item>
                     <el-input
+                      placeholder="Enter your email"
+                      prefix-icon="el-icon-key"
+                      v-model="dataForm.email"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-input
                       placeholder="Enter your password"
                       prefix-icon="el-icon-key"
                       v-model="dataForm.password"
@@ -47,8 +54,20 @@
                     ></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" @click="login">Sign In</el-button>
-                    <el-button type="primary" plain  @click="$router.push({path:'/register'})">Sign Up</el-button>
+                    <el-input
+                      placeholder="Repeat your password"
+                      prefix-icon="el-icon-key"
+                      v-model="dataForm.password"
+                      type="password"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="login">Submit</el-button>
+                    <el-button
+                      type="primary"
+                      plain
+                      @click="$router.push({path:'/register'})"
+                    >Back</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -64,21 +83,37 @@
 import * as loginApi from '@/api/login'
 
 export default {
-  name: 'login',
+  name: 'register',
   data() {
     return {
       dataForm: {
-        username: '',
-        password: ''
+          username:'',
+          password:'',
+          repeatPassword:'',
+          email:''
       }
     }
   },
   watch: {},
   mounted() {},
   methods: {
-
     login() {
-      loginApi.login(this.$requests.api, this.dataForm).then(response => {
+      let data = (panel => {
+        switch (panel) {
+          case 'email':
+            return this.email
+          case 'phone':
+            return {
+              username: this.phone.phoneAreaCode + this.phone.phone,
+              password: this.phone.password,
+              source: this.phone.source,
+              type: this.phone.type
+            }
+          default:
+            return {}
+        }
+      })(this.active)
+      loginApi.login(this.$requests.api, data).then(response => {
         let data = response.data
         this.$store.commit('SET_USERID', data.userId)
         this.$store.commit('SET_ACCESSTOKEN', data.accessToken)
