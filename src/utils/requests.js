@@ -1,7 +1,5 @@
 import axios from 'axios'
 import store from '@store'
-import { Dialog } from 'vant'
-import { Toast } from 'vant'
 
 const api = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
@@ -15,19 +13,16 @@ const orion = axios.create({
 
 const generalResponse = response => {
   if (response.data.success) {
-    Toast.clear()
-
     return response.data
   } else {
-    Toast.clear()
     // -1:用户未登录;
     switch (response.data.code) {
       case '-1':
-        Dialog.confirm({
-          title: '用户已过期',
-          message: '你已被登出，可以取消继续留在该页面，或者重新登录'
-        })
-          .then(() => {
+        this.$confirm('You have been login out，click cancle to stay or click ok to login', 'Token Expired', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancle',
+          type: 'warning'
+        }).then(() => {
             // on confirm
             location.href = '/#/login'
           })
@@ -36,9 +31,7 @@ const generalResponse = response => {
           })
         break
       default:
-        Toast({
-          message: response.data.msg
-        })
+        this.$message.error(response.data.msg);
     }
     return Promise.reject('error')
   }

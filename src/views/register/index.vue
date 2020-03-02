@@ -63,11 +63,7 @@
                   </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="login">Submit</el-button>
-                    <el-button
-                      type="primary"
-                      plain
-                      @click="$router.push({path:'/register'})"
-                    >Back</el-button>
+                    <el-button type="primary" plain @click="$router.push({path:'/login'})">Back</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -87,10 +83,10 @@ export default {
   data() {
     return {
       dataForm: {
-          username:'',
-          password:'',
-          repeatPassword:'',
-          email:''
+        username: '',
+        password: '',
+        repeatPassword: '',
+        email: ''
       }
     }
   },
@@ -98,42 +94,7 @@ export default {
   mounted() {},
   methods: {
     login() {
-      let data = (panel => {
-        switch (panel) {
-          case 'email':
-            return this.email
-          case 'phone':
-            return {
-              username: this.phone.phoneAreaCode + this.phone.phone,
-              password: this.phone.password,
-              source: this.phone.source,
-              type: this.phone.type
-            }
-          default:
-            return {}
-        }
-      })(this.active)
-      loginApi.login(this.$requests.api, data).then(response => {
-        let data = response.data
-        this.$store.commit('SET_USERID', data.userId)
-        this.$store.commit('SET_ACCESSTOKEN', data.accessToken)
-        this.$store.commit('SET_EMAIL', data.email)
-        this.$store.commit('SET_PHONE', data.phone)
-        this.$store.commit('SET_NAME', data.name)
-        this.$store.commit('SET_LEVEL', data.level)
-        this.$store.commit('SET_CHECKSTATUS', data.checkStatus)
-        // 更新 拦截器
-        let headerConfig = config => {
-          // 配置请求头相关
-          config.headers.lang = 'cn'
-          config.headers.userId = this.$store.getters.userId
-          config.headers.accessToken = this.$store.getters.accessToken
-          return config
-        }
-        this.$requests.api.interceptors.request.use(headerConfig)
-        this.$requests.orion.interceptors.request.use(headerConfig)
-        this.$router.push('landing')
-      })
+      loginApi.register(this.$requests.api, this.dataForm).then(response => {})
     }
   }
 }
