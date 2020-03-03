@@ -179,5 +179,4 @@ export function batchDeleteSuffix(request, token, projectRefId, data) {
         },
         data
     })
-
 }
