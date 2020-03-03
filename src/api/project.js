@@ -9,6 +9,10 @@ export function getAlgorithm(request, data, page, size, token, projectRefId) {
         headers: {
             'AUTH_TOKEN': token,
             'PROJECT': projectRefId
+        },
+        params: {
+            page: page,
+            size: size
         }
     })
 }
@@ -135,4 +139,45 @@ export function batchDeleteUserData(request, data) {
         method: 'delete',
         data
       })
+}
+
+
+// data is Suffix object, put all the filter criteria
+export function getSuffix(request, data, token, projectRefId) {
+    return request({
+        url: '/rest/project/suffix/get',
+        method: 'post',
+        data,
+        headers: {
+            'AUTH_TOKEN': token,
+            'PROJECT': projectRefId
+        }
+    })
+}
+
+// data is Suffix object
+export function createSuffix(request, token, projectRefId, data) {
+    return request({
+        url: '/rest/project/suffix',
+        method: 'post',
+        headers: {
+            'AUTH_TOKEN': token,
+            'PROJECT': projectRefId
+        },
+        data
+    })
+}
+
+// data is List<Suffix>
+export function batchDeleteSuffix(request, token, projectRefId, data) {
+    return request({
+        url: '/rest/project/suffix',
+        method: 'delete',
+        headers: {
+            'AUTH_TOKEN': token,
+            'PROJECT': projectRefId
+        },
+        data
+    })
+
 }
