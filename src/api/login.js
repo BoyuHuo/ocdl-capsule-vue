@@ -10,11 +10,10 @@ export function login(request, data) {
 }
 
 // need to enclose user token
-export function logout(request, token) {
+export function logout(request) {
     return request({
         url: '/rest/auth/logout',
         method: 'post'
-        headers: {'AUTH_TOKEN': token}
     })
 }
 
@@ -28,11 +27,10 @@ export function signUp(request, data) {
 }
 
 // need to enclose user token
-export function me(request, token) {
+export function me(request) {
     return request({
         url: '/rest/auth/me',
-        method: 'get',
-        headers: {'AUTH_TOKEN': token}
+        method: 'get'
       })
 }
 

@@ -1,15 +1,11 @@
 // import request from '@/utils/request'
 
 // data is Algorithm object, put all the filter criteria
-export function getAlgorithm(request, data, page, size, token, projectRefId) {
+export function getAlgorithm(request, data, page, size) {
     return request({
         url: '/rest/project/algorithm/get',
         method: 'post',
         data,
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        },
         params: {
             page: page,
             size: size
@@ -18,27 +14,19 @@ export function getAlgorithm(request, data, page, size, token, projectRefId) {
 }
 
 // data is Algorithm object
-export function saveAlgorithm(request, token, projectRefId, data) {
+export function saveAlgorithm(request, data) {
     return request({
         url: '/rest/project/algorithm',
         method: 'post',
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        },
         data
     })
 }
 
 // data is List<Algorithm>
-export function batchDeleteAlgorithm(request, token, projectRefId, data) {
+export function batchDeleteAlgorithm(request, data) {
     return request({
         url: '/rest/project/algorithm',
         method: 'delete',
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        },
         data
     })
 
@@ -46,14 +34,10 @@ export function batchDeleteAlgorithm(request, token, projectRefId, data) {
 
 
 // get Project object
-export function getProjectConfig(request, token, projectRefId, projectId) {
+export function getProjectConfig(request, projectId) {
     return request({
         url: '/rest/project',
         method: 'get',
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        },
         params: {
             id : projectId
         }
@@ -63,25 +47,19 @@ export function getProjectConfig(request, token, projectRefId, projectId) {
 
 // save Project object, including create and update
 // data is Project object
-export function saveProject(request, token, data) {
+export function saveProject(request, data) {
     return request({
         url: '/rest/project/config',
-        method: 'post',
-        headers: {
-            'AUTH_TOKEN': token
-        }
+        method: 'post'
     })
 
 }
 
 // data is Project object
-export function deleteProject(request, token, data) {
+export function deleteProject(request, data) {
     return request({
         url: '/rest/project/config',
-        method: 'post',
-        headers: {
-            'AUTH_TOKEN': token
-        }
+        method: 'post'
     })
 
 }
@@ -96,21 +74,16 @@ export function getProjectData(request, data, page, size) {
         params: {
             page: page,
             size: size
-        }
-        headers: {'AUTH_TOKEN': token}
+        },
         data
     })
 }
 
 
-export function uploadProjectData(request, srcpath, projectRefId, token) {
+export function uploadProjectData(request, srcpath) {
     return request({
         url: '/rest/userdata',
         method: 'post',
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        },
         params: {
             srcpath: srcpath
         }
@@ -118,16 +91,12 @@ export function uploadProjectData(request, srcpath, projectRefId, token) {
 }
 
 // refId is ProjectData refId
-export function downloadProjectData(request, refId, token, projectRefId) {
+export function downloadProjectData(request, refId) {
     return request({
         url: '/rest/projectdata',
         method: 'get',
         params: {
             refid: refId
-        }
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
         }
       })
 }
@@ -143,40 +112,28 @@ export function batchDeleteUserData(request, data) {
 
 
 // data is Suffix object, put all the filter criteria
-export function getSuffix(request, data, token, projectRefId) {
+export function getSuffix(request, data) {
     return request({
         url: '/rest/project/suffix/get',
         method: 'post',
-        data,
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        }
+        data
     })
 }
 
 // data is Suffix object
-export function createSuffix(request, token, projectRefId, data) {
+export function createSuffix(request, data) {
     return request({
         url: '/rest/project/suffix',
         method: 'post',
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        },
         data
     })
 }
 
 // data is List<Suffix>
-export function batchDeleteSuffix(request, token, projectRefId, data) {
+export function batchDeleteSuffix(request, data) {
     return request({
         url: '/rest/project/suffix',
         method: 'delete',
-        headers: {
-            'AUTH_TOKEN': token,
-            'PROJECT': projectRefId
-        },
         data
     })
 }

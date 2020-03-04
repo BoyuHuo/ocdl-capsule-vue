@@ -4,25 +4,23 @@
 // use for find all the user whoes name match or partly match with the input name
 // param: input name
 // need to enclose user token
-export function getUserByName(request, name, token) {
+export function getUserByName(request, name) {
     return request({
         url: '/rest/user',
         method: 'get',
         params: {
             name: name
         }
-        headers: {'AUTH_TOKEN': token}
     })
 }
 
 // get the role name in DB, like developer and manager
 // for bind the role with user and project
 // need to enclose user token
-export function getRoles(request, token) {
+export function getRoles(request) {
     return request({
         url: '/rest/role',
         method: 'get'
-        headers: {'AUTH_TOKEN': token}
     })
 }
 
@@ -37,31 +35,28 @@ export function getUserData(request, data, page, size) {
             page: page,
             size: size
         }
-        headers: {'AUTH_TOKEN': token}
         data
     })
 }
 
 // data is uploadDto, including the path of the data, and which category the user want to put
 // need to enclose user token
-export function uploadUserData(request, data, token) {
+export function uploadUserData(request, data) {
     return request({
         url: '/rest/userdata',
-        method: 'post',
-        headers: {'AUTH_TOKEN': token}
+        method: 'post'
       })
 }
 
 // refId is the UserData refId
 // need to enclose user token
-export function downloadUserData(request, refId, token) {
+export function downloadUserData(request, refId) {
     return request({
         url: '/rest/userdata',
         method: 'get',
         params: {
             refid: refId
         }
-        headers: {'AUTH_TOKEN': token}
       })
 }
 
