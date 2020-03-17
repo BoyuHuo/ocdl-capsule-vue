@@ -16,6 +16,7 @@ import VCharts from 'v-charts'
 import 'vant/lib/index.css'
 import '@/styles/main.css'
 import '@/styles/common.less'
+import '@/styles/animate.css'
 
 // 全局注册 dateFilter filtter
 Object.keys(filters).forEach(key => {

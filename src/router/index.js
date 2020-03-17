@@ -14,7 +14,7 @@ export const constantRouterMap = [
   {
     path: '/',
     meta: {
-      title: 'CoinSoon'
+      title: 'OCDL'
     },
     component: login
   },

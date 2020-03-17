@@ -12,6 +12,13 @@ const appModule = [
       title: '注册'
     },
     component: () => import(/* webpackChunkName: "app-index" */ '@/views/register/index')
+  },
+  {
+    name: 'home',
+    meta: {
+      title: '主页'
+    },
+    component: () => import(/* webpackChunkName: "app-index" */ '@/views/home/index')
   }
 ]
 export default appModule
