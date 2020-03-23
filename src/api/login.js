@@ -17,17 +17,6 @@ export function logout(request) {
     })
 }
 
-<<<<<<< HEAD
-export function register(request, data,id) {
-  return request({
-    url: '/user/logout',
-    method: 'post',
-    params: {
-      id: id,
-    },
-    data
-  })
-=======
 // data is an User object
 export function signUp(request, data) {
     return request({
@@ -55,5 +44,4 @@ export function checkExist(request, sourceId) {
             source_id: sourceId
         }
       })
->>>>>>> fda6fa5545e35b7de12e94f2d7c3c4b5b44143ed
 }

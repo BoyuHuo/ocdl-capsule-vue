@@ -4,7 +4,8 @@
     <vue-canvas-nest :config="cavans_config"></vue-canvas-nest>
     <el-row>
       <el-col>
-        <el-card class="box-card">
+        <H1 id="welcome" key="welcome" v-show="loginSuccess">Welcome Back, {{dataForm.account}}</H1>
+        <el-card id="credential" key="credential" v-show="!loginSuccess" class="box-card">
           <el-row>
             <el-col :span="12" class="image-container">
               <el-carousel height="500px">
@@ -32,7 +33,7 @@
                       <el-input
                         placeholder="Enter your username"
                         prefix-icon="el-icon-user"
-                        v-model="dataForm.username"
+                        v-model="dataForm.account"
                       ></el-input>
                     </el-form-item>
                     <el-form-item>
@@ -92,7 +93,7 @@
                       <el-input
                         placeholder="Repeat your password"
                         prefix-icon="el-icon-key"
-                        v-model="registerForm.password"
+                        v-model="registerForm.repeatPassword"
                         type="password"
                       ></el-input>
                     </el-form-item>
@@ -103,7 +104,7 @@
                       </el-checkbox>
                     </el-form-item>
                     <el-form-item style="text-align: center">
-                      <el-button type="primary" style="width:40%" @click="login">Submit</el-button>
+                      <el-button type="primary" style="width:40%" @click="register">Submit</el-button>
                       <el-button
                         type="primary"
                         style="width:40%"
@@ -130,17 +131,19 @@ export default {
   name: 'login',
   data() {
     return {
+      loginSuccess: false,
       isRegisterShow: false,
       agreeTerms: false,
       dataForm: {
-        username: '',
+        account: '',
         password: ''
       },
       registerForm: {
         username: '',
         password: '',
         repeatPassword: '',
-        email: ''
+        email: '',
+        is_inner_user: true
       },
       images: [require('../../assets/img/login2.png'), require('../../assets/img/login3.png')],
       cavans_config: {
@@ -174,8 +177,18 @@ export default {
           return config
         }
         this.$requests.api.interceptors.request.use(headerConfig)
-        this.$requests.orion.interceptors.request.use(headerConfig)
-        this.$router.push('landing')
+        this.loginSuccess = true
+
+        setTimeout(() => this.$router.push('home'), 2000)
+      })
+    },
+    register() {
+      loginApi.signUp(this.$requests.api, this.registerForm).then(response => {
+        this.$message({
+          message: 'Register successful!',
+          type: 'success'
+        })
+        this.isRegisterShow = false
       })
     }
   }
