@@ -1,6 +1,8 @@
 <template>
   <section>
     <header-nav></header-nav>
+    <second-nav></second-nav>
+    <side-nav></side-nav>
     <div style="margin-bottom: 20px;">
       <el-button size="small" @click="addTab(editableTabsValue)">add tab</el-button>
     </div>
@@ -23,6 +25,8 @@
 </template>
 <script>
 import HeaderNav from '@/components/HeaderNav'
+import SecondNav from '@/components/SecondNav'
+import SideNav from '@/components/SideNav'
 export default {
   data() {
     return {
@@ -44,7 +48,8 @@ export default {
       tabIndex: 2
     }
   },
-  components: { HeaderNav },
+  components: { HeaderNav,SecondNav,SideNav },
+
   methods: {
     addTab(targetName) {
       let newTabName = ++this.tabIndex + ''

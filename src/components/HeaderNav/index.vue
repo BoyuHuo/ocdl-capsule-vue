@@ -23,6 +23,7 @@
         <el-menu-item index="1-99" style="color:#409EFF" @click="showNewProject=true">New</el-menu-item>
       </el-submenu>
     </el-menu>
+
     <!-- Create New Project -->
     <el-dialog title="New Project" :visible.sync="showNewProject" width="30%">
       <span>
@@ -62,6 +63,9 @@ export default {
         description: ''
       }
     }
+  },
+  mounted() {
+    console.log(this.$store.projects)
   },
   methods: {
     createNewProject() {}

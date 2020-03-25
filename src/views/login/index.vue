@@ -162,12 +162,8 @@ export default {
       loginApi.login(this.$requests.api, this.dataForm).then(response => {
         let data = response.data
         this.$store.commit('SET_USERID', data.userId)
-        this.$store.commit('SET_ACCESSTOKEN', data.accessToken)
-        this.$store.commit('SET_EMAIL', data.email)
-        this.$store.commit('SET_PHONE', data.phone)
-        this.$store.commit('SET_NAME', data.name)
-        this.$store.commit('SET_LEVEL', data.level)
-        this.$store.commit('SET_CHECKSTATUS', data.checkStatus)
+        this.$store.commit('SET_ACCESSTOKEN', data.token)
+        this.$store.commit('SET_PROJECT',data.role)
         // 更新 拦截器
         let headerConfig = config => {
           // 配置请求头相关

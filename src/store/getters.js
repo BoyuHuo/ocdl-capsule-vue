@@ -8,7 +8,8 @@ const getters = {
   checkStatus: state => state.user.checkStatus,
   level: state => state.user.level,
   language: state => state.app.language,
-  version: state => process.env.VUE_APP_VERSION
+  version: state => process.env.VUE_APP_VERSION,
+  projects: state => state.user.projects
 }
 
 export default getters
