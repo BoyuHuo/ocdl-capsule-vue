@@ -34,7 +34,7 @@ export function getUserData(request, data, page, size) {
         params: {
             page: page,
             size: size
-        }
+        },
         data
     })
 }
