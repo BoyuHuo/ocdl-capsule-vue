@@ -50,7 +50,8 @@ export function getProjectConfig(request, projectId) {
 export function saveProject(request, data) {
     return request({
         url: '/rest/project/config',
-        method: 'post'
+        method: 'post',
+        data
     })
 
 }
@@ -59,7 +60,8 @@ export function saveProject(request, data) {
 export function deleteProject(request, data) {
     return request({
         url: '/rest/project/config',
-        method: 'post'
+        method: 'delete',
+        data
     })
 
 }
@@ -82,7 +84,7 @@ export function getProjectData(request, data, page, size) {
 
 export function uploadProjectData(request, srcpath) {
     return request({
-        url: '/rest/userdata',
+        url: '/rest/project/projectdata',
         method: 'post',
         params: {
             srcpath: srcpath
@@ -93,7 +95,7 @@ export function uploadProjectData(request, srcpath) {
 // refId is ProjectData refId
 export function downloadProjectData(request, refId) {
     return request({
-        url: '/rest/projectdata',
+        url: '/rest/project/projectdata',
         method: 'get',
         params: {
             refid: refId
@@ -104,7 +106,7 @@ export function downloadProjectData(request, refId) {
 // data is List<ProjectData>
 export function batchDeleteUserData(request, data) {
     return request({
-        url: '/rest/projectdata',
+        url: '/rest/project/projectdata',
         method: 'delete',
         data
       })
