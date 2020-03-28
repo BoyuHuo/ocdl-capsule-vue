@@ -1,5 +1,5 @@
 <template>
-  <div style="position:fixed; height:100%; background-color:white; z-index:9999 ">
+  <div style="position:fixed; height:100%; background-color:white; z-index:1000 ">
     <el-button :class="[rotate?'uncollapse-btn':'collapse-btn']" @click="handleToggle">
       <i
         :class="[rotate?'uncollapse-icon el-icon-arrow-right':'collapse-icon el-icon-arrow-right']"
@@ -36,11 +36,15 @@
         <i class="el-icon-menu"></i>
         <span slot="title">User Storage</span>
       </el-menu-item>
-      <el-menu-item index="3" disabled>
+      <el-menu-item index="3" >
         <i class="el-icon-document"></i>
         <span slot="title">Model Center</span>
       </el-menu-item>
-      <el-menu-item index="4">
+            <el-menu-item index="4" >
+        <i class="el-icon-document"></i>
+        <span slot="title">Project Management</span>
+      </el-menu-item>
+      <el-menu-item index="5">
         <i class="el-icon-setting"></i>
         <span slot="title">Help</span>
       </el-menu-item>
@@ -76,7 +80,7 @@ export default {
 
 <style scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  width: 250px;
   min-height: 400px;
 }
 .collapse-icon {
@@ -95,7 +99,7 @@ export default {
 .uncollapse-btn {
   margin: 0;
   vertical-align: middle;
-  width: 200px;
+  width: 250px;
   text-align: center;
 }
 </style>

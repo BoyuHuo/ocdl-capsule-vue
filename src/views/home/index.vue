@@ -1,7 +1,8 @@
 <template>
   <section>
+    <vue-canvas-nest :config="cavans_config"></vue-canvas-nest>
     <header-nav></header-nav>
-    <second-nav></second-nav>
+    <second-nav @launchContainer="handleLaunchContainer"></second-nav>
     <side-nav></side-nav>
     <div style="margin-bottom: 20px;">
       <el-button size="small" @click="addTab(editableTabsValue)">add tab</el-button>
@@ -15,22 +16,26 @@
             :key="item.name"
             :label="item.title"
             :name="item.name"
-          >{{item.content}}</el-tab-pane>
+          >  <span v-html="item.content"></span></el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
-
-
   </section>
 </template>
 <script>
 import HeaderNav from '@/components/HeaderNav'
 import SecondNav from '@/components/SecondNav'
 import SideNav from '@/components/SideNav'
+import vueCanvasNest from 'vue-canvas-nest'
 export default {
   data() {
     return {
-    
+      cavans_config: {
+        color: '0,0,255',
+        opacity: 0.7,
+        zIndex: -2,
+        count: 120
+      },
       isCollapse: true,
       editableTabsValue: '2',
       editableTabs: [
@@ -48,7 +53,11 @@ export default {
       tabIndex: 2
     }
   },
-  components: { HeaderNav,SecondNav,SideNav },
+  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest },
+
+  mounted() {
+    console.log('123' + this.$store.getters.projectList)
+  },
 
   methods: {
     addTab(targetName) {
@@ -56,7 +65,7 @@ export default {
       this.editableTabs.push({
         title: 'New Tab',
         name: newTabName,
-        content: 'New Tab content'
+        content: '<h1>hahaha</h1>'
       })
       this.editableTabsValue = newTabName
     },
@@ -73,12 +82,12 @@ export default {
           }
         })
       }
-
       this.editableTabsValue = activeName
       this.editableTabs = tabs.filter(tab => tab.name !== targetName)
     },
+    handleLaunchContainer() {
 
-
+    }
   }
 }
 </script>

@@ -162,19 +162,19 @@ export default {
       loginApi.login(this.$requests.api, this.dataForm).then(response => {
         let data = response.data
         this.$store.commit('SET_USERID', data.userId)
+        this.$store.commit('SET_NAME', this.dataForm.account)
         this.$store.commit('SET_ACCESSTOKEN', data.token)
-        this.$store.commit('SET_PROJECT',data.role)
+        this.$store.commit('SET_PROJECTLIST',data.role)
         // 更新 拦截器
         let headerConfig = config => {
           // 配置请求头相关
           config.headers.lang = 'cn'
           config.headers.userId = this.$store.getters.userId
-          config.headers.accessToken = this.$store.getters.accessToken
+          config.headers.AUTH_TOKEN = this.$store.getters.accessToken
           return config
         }
         this.$requests.api.interceptors.request.use(headerConfig)
         this.loginSuccess = true
-
         setTimeout(() => this.$router.push('home'), 2000)
       })
     },

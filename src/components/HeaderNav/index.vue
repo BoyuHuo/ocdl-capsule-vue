@@ -12,14 +12,20 @@
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
             fit="scale-down"
           ></el-avatar>&nbsp;Hi,
-          <label style="color:#409EFF">Blue</label>
+          <label style="color:#409EFF">{{name}}</label>
         </template>
-        <el-menu-item index="3-1">
+        <el-menu-item index="3-1" @click="logout">
           <i class="el-icon-right"></i>Logout
         </el-menu-item>
       </el-submenu>
       <el-submenu index="2" class="right-menu">
-        <template slot="title">Project: None</template>
+        <template slot="title">Project: {{currentProject.project.name}}</template>
+        <el-menu-item
+          index="1"
+          :key="k"
+          v-for="(p,k) in projectList"
+          @click="selectProject(p)"
+        >{{p.project.name}}</el-menu-item>
         <el-menu-item index="1-99" style="color:#409EFF" @click="showNewProject=true">New</el-menu-item>
       </el-submenu>
     </el-menu>
@@ -32,7 +38,7 @@
           placeholder="Project Name"
           v-model="newProjectForm.name"
           prefix-icon="el-icon-menu"
-          maxlength="10"
+          maxlength="100"
           show-word-limit
         ></el-input>
         <div style="margin: 20px 0;"></div>
@@ -41,34 +47,54 @@
           placeholder="Note"
           prefix-icon="el-icon-s-order"
           v-model="newProjectForm.description"
-          maxlength="30"
+          maxlength="200"
           show-word-limit
         ></el-input>
       </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showNewProject = false">Cancle</el-button>
-        <el-button type="primary" @click="dialogVisible = false">Create</el-button>
+        <el-button type="primary" @click="createNewProject">Create</el-button>
       </span>
     </el-dialog>
   </section>
 </template>
 <script>
+import * as projectAPI from '@/api/project'
+import * as loginAPI from '@/api/login'
+
 export default {
   name: 'headerNav',
   data() {
     return {
+      name: this.$store.getters.name,
       showNewProject: false,
       newProjectForm: {
         name: '',
         description: ''
-      }
+      },
+
+      projectList: JSON.parse(this.$store.getters.projectList),
+      currentProject: JSON.parse(this.$store.getters.project)
     }
   },
-  mounted() {
-    console.log(this.$store.projects)
-  },
+
+  mounted() {},
   methods: {
-    createNewProject() {}
+    createNewProject() {
+      projectAPI.saveProject(this.$requests.api, this.newProjectForm).then(response => {
+        alert('Success')
+      })
+    },
+    selectProject(project) {
+      this.$store.commit('SET_PROJECT', project)
+      this.currentProject = JSON.parse(this.$store.getters.project)
+    },
+    logout(){
+      loginAPI.logout(this.$requests.api).then(response=>{
+        this.$store.commit('LOGOUT')
+        this.$router.push('login')
+      })
+    }
   }
 }
 </script>

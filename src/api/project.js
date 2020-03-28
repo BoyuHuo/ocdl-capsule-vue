@@ -39,7 +39,7 @@ export function getProjectConfig(request, projectId) {
         url: '/rest/project',
         method: 'get',
         params: {
-            id : projectId
+            id: projectId
         }
     })
 
@@ -89,7 +89,7 @@ export function uploadProjectData(request, srcpath) {
         params: {
             srcpath: srcpath
         }
-      })
+    })
 }
 
 // refId is ProjectData refId
@@ -100,7 +100,7 @@ export function downloadProjectData(request, refId) {
         params: {
             refid: refId
         }
-      })
+    })
 }
 
 // data is List<ProjectData>
@@ -109,7 +109,7 @@ export function batchDeleteUserData(request, data) {
         url: '/rest/project/projectdata',
         method: 'delete',
         data
-      })
+    })
 }
 
 
