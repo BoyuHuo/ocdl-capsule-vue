@@ -7,18 +7,11 @@ const appModule = [
     component: () => import(/* webpackChunkName: "app-index" */ '@/views/login/index')
   },
   {
-    name: 'register',
-    meta: {
-      title: '注册'
-    },
-    component: () => import(/* webpackChunkName: "app-index" */ '@/views/register/index')
-  },
-  {
-    name: 'landing',
+    name: 'home',
     meta: {
       title: '主页'
     },
-    component: () => import(/* webpackChunkName: "app-index" */ '@/views/landing/index')
+    component: () => import(/* webpackChunkName: "app-index" */ '@/views/home/index')
   }
 ]
 export default appModule

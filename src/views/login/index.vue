@@ -1,57 +1,119 @@
+
 <template>
-  <section style="text-align:center">
-    <el-row style="margin-top:3rem;">
-      <el-col :span="16" :offset="4">
-        <el-card class="box-card" style="height:30rem">
+  <section class="login_container">
+    <vue-canvas-nest :config="cavans_config"></vue-canvas-nest>
+    <el-row>
+      <el-col>
+        <el-card class="box-card">
           <el-row>
-            <el-col :span="12">
-              <el-carousel height="27rem">
-                <el-carousel-item v-for="item in 4" :key="item">
-                  <h3 class="small">{{ item }}</h3>
+            <el-col :span="12" class="image-container">
+              <el-carousel height="500px">
+                <el-carousel-item v-for="(img,key) in images" :key="key">
+                  <el-image :src="img" fit="none"></el-image>
                 </el-carousel-item>
               </el-carousel>
             </el-col>
 
-            <el-col :span="12" style="padding-left:10px">
-              <div
-                class="block"
-                style="height:12rem; display: flex;
-            justify-content: center;
-            align-items: Center;"
-              >
-                <el-image
-                  style="width:60%;margin-top:3rem"
-                  :src="require('../../assets/img/ocdl.png')"
-                ></el-image>
+            <el-col :span="12" class="form-container">
+              <div class="block">
+                <el-image :src="require('../../assets/img/ocdl.png')"></el-image>
               </div>
-              <el-divider content-position="left">Sign In</el-divider>
-              <div
-                style="  display: flex;
-            justify-content: center;
-            align-items: Center;"
+
+              <transition
+                name="custom-classes-transition"
+                enter-active-class="animated bounceInRight"
+                leave-active-class="animated bounceOutRight"
+                mode="out-in"
               >
-                <el-form ref="dataForm" :model="dataForm" style="width:70%;">
-                  <el-form-item>
-                    <el-input
-                      placeholder="Enter your username"
-                      prefix-icon="el-icon-user"
-                      v-model="dataForm.username"
-                    ></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-input
-                      placeholder="Enter your password"
-                      prefix-icon="el-icon-key"
-                      v-model="dataForm.password"
-                      type="password"
-                    ></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button type="primary" @click="login">Sign In</el-button>
-                    <el-button type="primary" plain  @click="$router.push({path:'/register'})">Sign Up</el-button>
-                  </el-form-item>
-                </el-form>
-              </div>
+                <div id="loginDev" v-if="!isRegisterShow" key="login">
+                  <el-divider content-position="left">Sign In</el-divider>
+                  <el-form ref="dataForm" :model="dataForm">
+                    <el-form-item>
+                      <el-input
+                        placeholder="Enter your username"
+                        prefix-icon="el-icon-user"
+                        v-model="dataForm.username"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-input
+                        placeholder="Enter your password"
+                        prefix-icon="el-icon-key"
+                        v-model="dataForm.password"
+                        type="password"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <div>
+                        <el-button
+                          type="primary"
+                          @click="login"
+                          style="width:100%; height:40px"
+                        >Sign In</el-button>
+                      </div>
+                      <div style="margin-top:10px">
+                        <el-button
+                          style="width:100%; height:40px"
+                          type="primary"
+                          plain
+                          @click="isRegisterShow=true"
+                        >Sign Up</el-button>
+                      </div>
+                    </el-form-item>
+                  </el-form>
+                </div>
+
+                <div id="registerDev" v-else key="register">
+                  <el-divider content-position="left">Sign Up</el-divider>
+                  <el-form ref="registerForm" :model="registerForm">
+                    <el-form-item>
+                      <el-input
+                        placeholder="Enter your username"
+                        prefix-icon="el-icon-user"
+                        v-model="registerForm.username"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-input
+                        placeholder="Enter your email"
+                        prefix-icon="el-icon-key"
+                        v-model="registerForm.email"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-input
+                        placeholder="Enter your password"
+                        prefix-icon="el-icon-key"
+                        v-model="registerForm.password"
+                        type="password"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-input
+                        placeholder="Repeat your password"
+                        prefix-icon="el-icon-key"
+                        v-model="registerForm.password"
+                        type="password"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item style="text-align: center">
+                      <el-checkbox v-model="agreeTerms">
+                        I have read the
+                        <a style="color:#409EFF">user policy</a>
+                      </el-checkbox>
+                    </el-form-item>
+                    <el-form-item style="text-align: center">
+                      <el-button type="primary" style="width:40%" @click="login">Submit</el-button>
+                      <el-button
+                        type="primary"
+                        style="width:40%"
+                        plain
+                        @click="isRegisterShow=false"
+                      >Back</el-button>
+                    </el-form-item>
+                  </el-form>
+                </div>
+              </transition>
             </el-col>
           </el-row>
         </el-card>
@@ -62,21 +124,37 @@
 
 <script>
 import * as loginApi from '@/api/login'
+import vueCanvasNest from 'vue-canvas-nest'
 
 export default {
   name: 'login',
   data() {
     return {
+      isRegisterShow: false,
+      agreeTerms: false,
       dataForm: {
         username: '',
         password: ''
+      },
+      registerForm: {
+        username: '',
+        password: '',
+        repeatPassword: '',
+        email: ''
+      },
+      images: [require('../../assets/img/login2.png'), require('../../assets/img/login3.png')],
+      cavans_config: {
+        color: '0,0,255',
+        opacity: 0.7,
+        zIndex: -2,
+        count: 120
       }
     }
   },
+  components: { vueCanvasNest },
   watch: {},
   mounted() {},
   methods: {
-
     login() {
       loginApi.login(this.$requests.api, this.dataForm).then(response => {
         let data = response.data
@@ -105,6 +183,26 @@ export default {
 </script>
 
 <style scoped>
+.login_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.form-container {
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 500px;
+  background-color: #fff;
+}
+.image-container {
+  height: 500px;
+}
+
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
