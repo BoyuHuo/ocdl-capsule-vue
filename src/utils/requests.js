@@ -13,12 +13,12 @@ const api = axios.create({
 
 const generalResponse = response => {
   Loading.service({ fullscreen: true }).close();
-  if (response.status==200) {
+  if (response.data.code==200) {
     return response.data
   } else {
     // -1:用户未登录;
     switch (response.data.code) {
-      case '-1':
+      case '403':
         this.$confirm('You have been login out，click cancle to stay or click ok to login', 'Token Expired', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancle',
@@ -50,9 +50,9 @@ api.interceptors.request.use(
     loadingInstance = Loading.service({ fullscreen: true });
 
     // 配置请求头相关
-    config.headers.lang = 'cn'
     config.headers.userId = store.getters.userId
-    config.headers.accessToken = store.getters.accessToken
+    config.headers.AUTH_TOKEN = store.getters.accessToken
+  //  config.headers.PROJECT = JSON.parse(store.getters.project).project.id
     return config
   },
   error => {

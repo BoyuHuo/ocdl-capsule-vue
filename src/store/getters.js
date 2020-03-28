@@ -9,7 +9,8 @@ const getters = {
   level: state => state.user.level,
   language: state => state.app.language,
   version: state => process.env.VUE_APP_VERSION,
-  projects: state => state.user.projects
+  projectList: state => state.user.projectList,
+  project: state=> state.user.project
 }
 
 export default getters

@@ -1,10 +1,8 @@
 <template>
   <section>
     <el-menu
-      :default-active="activeIndex2"
       class="el-menu-demo"
       mode="horizontal"
-      @select="handleSelect"
       background-color="#409EFF"
       text-color="#fff"
       active-text-color="#ffffff"
@@ -32,11 +30,7 @@
         leave-active-class="animated slideOutRight"
         mode="out-in"
       >
-        <div
-          class="launch-controler"
-          v-if="showLaunchController"
-          key="controler"
-        >
+        <div class="launch-controler" v-if="showLaunchController" key="controler">
           <el-switch
             style="display: block"
             v-model="useGPU"
@@ -49,7 +43,7 @@
             type="primary"
             plain
             style="margin-left:20px"
-            @click="showLaunchController=!showLaunchController"
+            @click="launchContainer"
           >Launch</el-button>
         </div>
 
@@ -60,18 +54,31 @@
           class="right-menu"
           style="float:right"
           @click="showLaunchController=!showLaunchController"
-        ><i style="color:white" class="el-icon-s-promotion"></i>Launch Notebook</el-menu-item>
+        >
+          <i style="color:white" class="el-icon-s-promotion"></i>Launch Notebook
+        </el-menu-item>
       </transition>
     </el-menu>
   </section>
 </template>
 <script>
+import * as containerApi from '@/api/container'
 export default {
   name: 'secondName',
   data() {
     return {
       useGPU: true,
       showLaunchController: false
+    }
+  },
+  methods: {
+    launchContainer: function() {
+      let resType = this.useGPU ? 'gpu' : 'cpu'
+      containerApi.getContainer(this.$requests.api, resType).then(response => {
+        alert(123)
+        this.$emit('launchContainer', response.data)
+        this.showLaunchController=!this.showLaunchController
+      })
     }
   }
 }
