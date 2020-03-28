@@ -20,10 +20,10 @@ export function getModelListByUser(request) {
 
 // data is a Model obj
 // add user token and project refId in header
-export function pushDecision(request, modelId, data) {
+export function pushDecision(request, data) {
     return request({
-        url: '/rest/model/' + modelId,
-        method: 'post',
+        url: '/rest/model/',
+        method: 'put',
         data
     })
 }
@@ -31,9 +31,9 @@ export function pushDecision(request, modelId, data) {
 
 // add user token and project refId in header
 // data is a Model obj
-export function release(request, modelId, data) {
+export function release(request, data) {
     return request({
-        url: '/rest/model/' + modelId,
+        url: '/rest/model/',
         method: 'patch',
         data
     })
@@ -44,7 +44,7 @@ export function release(request, modelId, data) {
 // data is a Model obj
 export function initModelToStage(request) {
     return request({
-        url: '/rest/model',
+        url: '/rest/model/init',
         method: 'post'
     })
 }
