@@ -51,7 +51,15 @@ const userModule = {
     },
     LOG_OUT: state => {
       sessionStorage.clear()
-      state = { name: '', email: '', phone: '', userId: '', accessToken: '', checkStatus: '', level: '' }
+      state.name = '';
+      state.email = '';
+      state.phone = '';
+      state.userId = '';
+      state.accessToken = '';
+      state.checkStatus = '';
+      state.leve = '';
+      state.projectList = '';
+      state.project='';
     }
   },
 

@@ -168,7 +168,6 @@ export default {
         // 更新 拦截器
         let headerConfig = config => {
           // 配置请求头相关
-          config.headers.lang = 'cn'
           config.headers.userId = this.$store.getters.userId
           config.headers.AUTH_TOKEN = this.$store.getters.accessToken
           return config

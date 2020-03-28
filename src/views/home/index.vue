@@ -5,7 +5,7 @@
     <second-nav @launchContainer="handleLaunchContainer"></second-nav>
     <side-nav></side-nav>
     <div style="margin-bottom: 20px;">
-      <el-button size="small" @click="addTab(editableTabsValue)">add tab</el-button>
+      <el-button size="small" @click="addResource()">add tab</el-button>
     </div>
 
     <el-row>
@@ -60,7 +60,7 @@ export default {
   },
 
   methods: {
-    addTab(targetName) {
+    addResource(title,url) {
       let newTabName = ++this.tabIndex + ''
       this.editableTabs.push({
         title: 'New Tab',
@@ -85,8 +85,9 @@ export default {
       this.editableTabsValue = activeName
       this.editableTabs = tabs.filter(tab => tab.name !== targetName)
     },
-    handleLaunchContainer() {
-
+    handleLaunchContainer(data) {
+      console.log(data)
+      this.addResource("Juyter Notebook",data.url)
     }
   }
 }

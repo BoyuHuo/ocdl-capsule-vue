@@ -56,6 +56,15 @@ export function saveProject(request, data) {
 
 }
 
+export function getProject(request) {
+    return request({
+        url: '/rest/projects',
+        method: 'get',
+    })
+
+}
+
+
 // data is Project object
 export function deleteProject(request, data) {
     return request({

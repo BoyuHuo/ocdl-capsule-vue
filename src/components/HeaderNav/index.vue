@@ -82,15 +82,30 @@ export default {
   methods: {
     createNewProject() {
       projectAPI.saveProject(this.$requests.api, this.newProjectForm).then(response => {
-        alert('Success')
+        this.$message({
+          message: 'Project Created Successful!',
+          type: 'success'
+        })
+        this.handleProjectList() 
+        this.showNewProject = false
       })
     },
     selectProject(project) {
       this.$store.commit('SET_PROJECT', project)
       this.currentProject = JSON.parse(this.$store.getters.project)
+      this.$message({
+        message: 'Switch to project - ' + project.project.name,
+        type: 'success'
+      })
     },
-    logout(){
-      loginAPI.logout(this.$requests.api).then(response=>{
+    handleProjectList() {
+      projectAPI.getProject(this.$requests.api).then(response => {
+        this.$store.commit('SET_PROJECTLIST', response.data)
+        this.projectList = response.data
+      })
+    },
+    logout() {
+      loginAPI.logout(this.$requests.api).then(response => {
         this.$store.commit('LOGOUT')
         this.$router.push('login')
       })

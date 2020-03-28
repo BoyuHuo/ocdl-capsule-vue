@@ -75,7 +75,6 @@ export default {
     launchContainer: function() {
       let resType = this.useGPU ? 'gpu' : 'cpu'
       containerApi.getContainer(this.$requests.api, resType).then(response => {
-        alert(123)
         this.$emit('launchContainer', response.data)
         this.showLaunchController=!this.showLaunchController
       })
