@@ -52,13 +52,16 @@
 </template>
 
 <script>
-import * as templateApi from "@/api/template"
+import * as templateApi from '@/api/template'
 export default {
   name: 'sideNav',
   data() {
     return {
       isCollapse: true,
-      rotate: false
+      rotate: false,
+      templateList:{
+        
+      }
     }
   },
   props: {},
@@ -75,8 +78,10 @@ export default {
       this.rotate = !this.rotate
     },
     handleProjectManagement() {},
-    handleTemplateCategory(){},
-    handleTemplateCode(){}
+    handleTemplateCategory() {
+      templateApi.getCategory().then(response => {})
+    },
+    handleTemplateCode() {}
   }
 }
 </script>

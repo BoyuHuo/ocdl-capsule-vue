@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '@store'
-import { Message, MessageBox,Loading } from 'element-ui'
+import { Message, Loading } from 'element-ui'
 
 
 var loadingInstance;
@@ -11,9 +11,10 @@ const api = axios.create({
 })
 
 
+
 const generalResponse = response => {
   Loading.service({ fullscreen: true }).close();
-  if (response.data.code==200) {
+  if (response.data.code == 200) {
     return response.data
   } else {
     // -1:用户未登录;
@@ -52,7 +53,7 @@ api.interceptors.request.use(
     // 配置请求头相关
     config.headers.userId = store.getters.userId
     config.headers.AUTH_TOKEN = store.getters.accessToken
-  //  config.headers.PROJECT = JSON.parse(store.getters.project).project.id
+    //  config.headers.PROJECT = JSON.parse(store.getters.project).project.id
     return config
   },
   error => {
@@ -61,6 +62,7 @@ api.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+
 
 const generalResponseError = error => {
   Loading.service({ fullscreen: true }).close();

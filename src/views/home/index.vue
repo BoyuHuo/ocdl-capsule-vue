@@ -23,7 +23,7 @@
             >
               <el-button-group>
                 <el-button type="primary">Open In A New Browser</el-button>
-                <el-button type="primary">Stage Models</el-button>
+                <el-button type="primary" @click="handleStaging">Stage Models</el-button>
                 <el-button type="primary">Release Resources</el-button>
               </el-button-group>
               <el-button slot="reference" type="warning" plain>
@@ -43,6 +43,8 @@ import HeaderNav from '@/components/HeaderNav'
 import SecondNav from '@/components/SecondNav'
 import SideNav from '@/components/SideNav'
 import vueCanvasNest from 'vue-canvas-nest'
+
+import * as modelApi from '@/api/model'
 export default {
   data() {
     return {
@@ -100,7 +102,15 @@ export default {
       console.log(data)
       this.addResource('Juyter Notebook', data.url)
     },
-    handleStaging() {}
+    handleStaging() {
+      alert(132)
+      modelApi.initModelToStage(this.$requests.api,JSON.parse(this.$store.getters.project).project.ref_id).then(response => {
+        this.$message({
+          message: 'Models have been submited successful!',
+          type: 'success'
+        })
+      })
+    }
   }
 }
 </script>

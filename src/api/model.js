@@ -42,10 +42,13 @@ export function release(request, data) {
 
 // add user token and project refId in header
 // data is a Model obj
-export function initModelToStage(request) {
+export function initModelToStage(request,project) {
     return request({
         url: '/rest/model/init',
-        method: 'post'
+        method: 'post',
+        headers: {
+            'PROJECT': project
+        }
     })
 }
 
