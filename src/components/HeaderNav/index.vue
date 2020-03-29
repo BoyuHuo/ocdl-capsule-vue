@@ -86,7 +86,7 @@ export default {
           message: 'Project Created Successful!',
           type: 'success'
         })
-        this.handleProjectList() 
+        this.handleProjectList()
         this.showNewProject = false
       })
     },
@@ -106,7 +106,7 @@ export default {
     },
     logout() {
       loginAPI.logout(this.$requests.api).then(response => {
-        this.$store.commit('LOGOUT')
+        this.$store.commit('LOG_OUT')
         this.$router.push('login')
       })
     }

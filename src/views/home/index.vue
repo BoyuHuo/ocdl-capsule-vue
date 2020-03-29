@@ -4,11 +4,8 @@
     <header-nav></header-nav>
     <second-nav @launchContainer="handleLaunchContainer"></second-nav>
     <side-nav></side-nav>
-    <div style="margin-bottom: 20px;">
-      <el-button size="small" @click="addResource()">add tab</el-button>
-    </div>
 
-    <el-row>
+    <el-row style="margin-top: 20px;">
       <el-col :span="20" :offset="2">
         <el-tabs v-model="editableTabsValue" type="border-card" closable @tab-remove="removeTab">
           <el-tab-pane
@@ -16,7 +13,26 @@
             :key="item.name"
             :label="item.title"
             :name="item.name"
-          >  <span v-html="item.content"></span></el-tab-pane>
+            style="height:600px"
+          >
+            <el-popover
+              v-if="item.type=='notebook'"
+              placement="right"
+              trigger="hover"
+              style="position:fixed; margin-top:550px; margin-left:10px "
+            >
+              <el-button-group>
+                <el-button type="primary">Open In A New Browser</el-button>
+                <el-button type="primary">Stage Models</el-button>
+                <el-button type="primary">Release Resources</el-button>
+              </el-button-group>
+              <el-button slot="reference" type="warning" plain>
+                Operations
+                <i class="el-icon-arrow-right el-icon--right"></i>
+              </el-button>
+            </el-popover>
+            <span v-html="item.content"></span>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -42,12 +58,8 @@ export default {
         {
           title: 'Tab 1',
           name: '1',
-          content: 'Tab 1 content'
-        },
-        {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
+          content: 'Tab 1 content',
+          type: 'xxx'
         }
       ],
       tabIndex: 2
@@ -55,17 +67,16 @@ export default {
   },
   components: { HeaderNav, SecondNav, SideNav, vueCanvasNest },
 
-  mounted() {
-    console.log('123' + this.$store.getters.projectList)
-  },
+  mounted() {},
 
   methods: {
-    addResource(title,url) {
+    addResource(title, url) {
       let newTabName = ++this.tabIndex + ''
       this.editableTabs.push({
-        title: 'New Tab',
+        title: title,
         name: newTabName,
-        content: '<h1>hahaha</h1>'
+        content: '<iframe src=http://' + url + ' style="width:100%; height:100%"></iframe>',
+        type: 'notebook'
       })
       this.editableTabsValue = newTabName
     },
@@ -87,8 +98,9 @@ export default {
     },
     handleLaunchContainer(data) {
       console.log(data)
-      this.addResource("Juyter Notebook",data.url)
-    }
+      this.addResource('Juyter Notebook', data.url)
+    },
+    handleStaging() {}
   }
 }
 </script>

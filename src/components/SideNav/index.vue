@@ -19,7 +19,6 @@
           <span slot="title">Code Template</span>
         </template>
         <el-menu-item-group>
-          <span slot="title">分组一</span>
           <el-menu-item index="1-1">选项1</el-menu-item>
           <el-menu-item index="1-2">选项2</el-menu-item>
         </el-menu-item-group>
@@ -36,11 +35,11 @@
         <i class="el-icon-menu"></i>
         <span slot="title">User Storage</span>
       </el-menu-item>
-      <el-menu-item index="3" >
+      <el-menu-item index="3">
         <i class="el-icon-document"></i>
         <span slot="title">Model Center</span>
       </el-menu-item>
-            <el-menu-item index="4" >
+      <el-menu-item index="4">
         <i class="el-icon-document"></i>
         <span slot="title">Project Management</span>
       </el-menu-item>
@@ -53,6 +52,7 @@
 </template>
 
 <script>
+import * as templateApi from "@/api/template"
 export default {
   name: 'sideNav',
   data() {
@@ -73,7 +73,10 @@ export default {
     handleToggle() {
       this.isCollapse = !this.isCollapse
       this.rotate = !this.rotate
-    }
+    },
+    handleProjectManagement() {},
+    handleTemplateCategory(){},
+    handleTemplateCode(){}
   }
 }
 </script>
