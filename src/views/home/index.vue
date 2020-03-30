@@ -1,13 +1,19 @@
 <template>
   <section>
     <vue-canvas-nest :config="cavans_config"></vue-canvas-nest>
-      <header-nav></header-nav>
-      <second-nav @launchContainer="handleLaunchContainer"></second-nav>
+    <header-nav :projectList="projectList" @refreshProjectList="handleProjectList"></header-nav>
+    <second-nav @launchContainer="handleLaunchContainer"></second-nav>
     <side-nav @projectSetting="handleProjectSetting"></side-nav>
 
     <el-row style="margin-top: 20px;">
       <el-col :span="20" :offset="2">
-        <el-tabs v-model="editableTabsValue" type="border-card" closable @tab-remove="removeTab" style="overflow :auto">
+        <el-tabs
+          v-model="editableTabsValue"
+          type="border-card"
+          closable
+          @tab-remove="removeTab"
+          style="overflow :auto"
+        >
           <el-tab-pane
             v-for="(item) in editableTabs"
             :key="item.name"
@@ -43,7 +49,7 @@
             @tab-remove="removeSettingTab"
             :closable="false"
           >
-            <project-setting></project-setting>
+            <project-setting :projectList="projectList"></project-setting>
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -58,6 +64,7 @@ import vueCanvasNest from 'vue-canvas-nest'
 import ProjectSetting from '@/components/ProjectSetting'
 
 import * as modelApi from '@/api/model'
+import * as projectAPI from '@/api/project'
 export default {
   data() {
     return {
@@ -71,7 +78,9 @@ export default {
       isCollapse: true,
       editableTabsValue: 'project',
       editableTabs: [],
-      tabIndex: 2
+      tabIndex: 2,
+
+      projectList: JSON.parse(this.$store.getters.projectList)
     }
   },
   components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting },
@@ -128,6 +137,12 @@ export default {
           message: 'Models have been submited successful!',
           type: 'success'
         })
+      })
+    },
+    handleProjectList() {
+      projectAPI.getProject(this.$requests.api).then(response => {
+        this.$store.commit('SET_PROJECTLIST', response.data)
+        this.projectList = response.data
       })
     },
     handleProjectSetting(data) {
