@@ -6,7 +6,9 @@ const userModule = {
     userId: sessionStorage.getItem('userId') || '',
     accessToken: sessionStorage.getItem('accessToken') || '',
     checkStatus: sessionStorage.getItem('checkStatus') || '',
-    level: sessionStorage.getItem('nalevelme') || ''
+    level: sessionStorage.getItem('nalevelme') || '',
+    projectList: sessionStorage.getItem('projectList') || '',
+    project: sessionStorage.getItem('project') || '{"project":{"name":"None"}}'
   },
 
   mutations: {
@@ -39,9 +41,25 @@ const userModule = {
       sessionStorage.setItem('level', level)
       state.level = level
     },
+    SET_PROJECTLIST: (state, role) => {
+      sessionStorage.setItem('projectList', JSON.stringify(role))
+      state.projectList = JSON.stringify(role)
+    },
+    SET_PROJECT: (state, project) => {
+      sessionStorage.setItem('project', JSON.stringify(project))
+      state.project = JSON.stringify(project)
+    },
     LOG_OUT: state => {
       sessionStorage.clear()
-      state = { name: '', email: '', phone: '', userId: '', accessToken: '', checkStatus: '', level: '' }
+      state.name = '';
+      state.email = '';
+      state.phone = '';
+      state.userId = '';
+      state.accessToken = '';
+      state.checkStatus = '';
+      state.leve = '';
+      state.projectList = '';
+      state.project='';
     }
   },
 

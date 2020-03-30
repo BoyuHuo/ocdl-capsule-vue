@@ -11,7 +11,7 @@ const appModule = [
     meta: {
       title: '主页'
     },
-    component: () => import(/* webpackChunkName: "app-index" */ '@/views/home/index')
+    component: () => import(/* webpackChunkName: "app-index" */ '@/views/home/index'),
   }
 ]
 export default appModule
