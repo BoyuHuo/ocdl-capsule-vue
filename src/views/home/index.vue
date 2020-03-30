@@ -1,9 +1,9 @@
 <template>
   <section>
     <vue-canvas-nest :config="cavans_config"></vue-canvas-nest>
-    <header-nav></header-nav>
-    <second-nav @launchContainer="handleLaunchContainer"></second-nav>
-    <side-nav></side-nav>
+      <header-nav></header-nav>
+      <second-nav @launchContainer="handleLaunchContainer"></second-nav>
+    <side-nav @projectSetting="handleProjectSetting"></side-nav>
 
     <el-row style="margin-top: 20px;">
       <el-col :span="20" :offset="2">
@@ -33,6 +33,18 @@
             </el-popover>
             <span v-html="item.content"></span>
           </el-tab-pane>
+
+          <el-tab-pane
+            v-if="isProjectSettingShow"
+            key="projectSetting"
+            label="Projects Setting"
+            name="project"
+            style="height:600px"
+            @tab-remove="removeSettingTab"
+            :closable="false"
+          >
+            <project-setting></project-setting>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -43,6 +55,7 @@ import HeaderNav from '@/components/HeaderNav'
 import SecondNav from '@/components/SecondNav'
 import SideNav from '@/components/SideNav'
 import vueCanvasNest from 'vue-canvas-nest'
+import ProjectSetting from '@/components/ProjectSetting'
 
 import * as modelApi from '@/api/model'
 export default {
@@ -54,25 +67,19 @@ export default {
         zIndex: -2,
         count: 120
       },
+      isProjectSettingShow: true,
       isCollapse: true,
-      editableTabsValue: '2',
-      editableTabs: [
-        {
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content',
-          type: 'xxx'
-        }
-      ],
+      editableTabsValue: 'project',
+      editableTabs: [],
       tabIndex: 2
     }
   },
-  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest },
+  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting },
 
   mounted() {},
 
   methods: {
-    addResource(title, url) {
+    addResourceTab(title, url) {
       let newTabName = ++this.tabIndex + ''
       this.editableTabs.push({
         title: title,
@@ -81,6 +88,20 @@ export default {
         type: 'notebook'
       })
       this.editableTabsValue = newTabName
+    },
+
+    addProjectSettingTab(title) {
+      let newTabName = ++this.tabIndex + ''
+      this.editableTabs.push({
+        title: title,
+        name: newTabName,
+        content: '<div :is="ProjectSetting" ></div>',
+        type: 'project'
+      })
+      this.editableTabsValue = newTabName
+    },
+    removeSettingTab() {
+      this.isProjectSettingShow = false
     },
     removeTab(targetName) {
       let tabs = this.editableTabs
@@ -99,17 +120,18 @@ export default {
       this.editableTabs = tabs.filter(tab => tab.name !== targetName)
     },
     handleLaunchContainer(data) {
-      console.log(data)
-      this.addResource('Juyter Notebook', data.url)
+      this.addResourceTab('Juyter Notebook', data.url)
     },
     handleStaging() {
-      alert(132)
-      modelApi.initModelToStage(this.$requests.api,JSON.parse(this.$store.getters.project).project.ref_id).then(response => {
+      modelApi.initModelToStage(this.$requests.api, JSON.parse(this.$store.getters.project).project.ref_id).then(response => {
         this.$message({
           message: 'Models have been submited successful!',
           type: 'success'
         })
       })
+    },
+    handleProjectSetting(data) {
+      this.addProjectSettingTab('Projects Center')
     }
   }
 }

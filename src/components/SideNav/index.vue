@@ -18,7 +18,7 @@
           <i class="el-icon-menu"></i>
           <span slot="title">Code Template</span>
         </template>
-        <el-menu-item-group>
+        <!-- <el-menu-item-group>
           <el-menu-item index="1-1">选项1</el-menu-item>
           <el-menu-item index="1-2">选项2</el-menu-item>
         </el-menu-item-group>
@@ -28,7 +28,7 @@
         <el-submenu index="1-4">
           <span slot="title">选项4</span>
           <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
+        </el-submenu> -->
       </el-submenu>
 
       <el-menu-item index="2">
@@ -39,7 +39,7 @@
         <i class="el-icon-document"></i>
         <span slot="title">Model Center</span>
       </el-menu-item>
-      <el-menu-item index="4">
+      <el-menu-item index="4" @click="handleProjectManagement">
         <i class="el-icon-document"></i>
         <span slot="title">Project Management</span>
       </el-menu-item>
@@ -59,9 +59,7 @@ export default {
     return {
       isCollapse: true,
       rotate: false,
-      templateList:{
-        
-      }
+      templateList: {}
     }
   },
   props: {},
@@ -77,7 +75,10 @@ export default {
       this.isCollapse = !this.isCollapse
       this.rotate = !this.rotate
     },
-    handleProjectManagement() {},
+    handleProjectManagement() {
+      this.$emit('projectSetting')
+      this.isCollapse = false;
+    },
     handleTemplateCategory() {
       templateApi.getCategory().then(response => {})
     },
