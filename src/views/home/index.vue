@@ -7,13 +7,13 @@
 
     <el-row style="margin-top: 20px;">
       <el-col :span="20" :offset="2">
-        <el-tabs v-model="editableTabsValue" type="border-card" closable @tab-remove="removeTab">
+        <el-tabs v-model="editableTabsValue" type="border-card" closable @tab-remove="removeTab" style="overflow :auto">
           <el-tab-pane
             v-for="(item) in editableTabs"
             :key="item.name"
             :label="item.title"
             :name="item.name"
-            style="height:600px"
+            style="height:600px; overflow :auto"
           >
             <el-popover
               v-if="item.type=='notebook'"
@@ -39,7 +39,7 @@
             key="projectSetting"
             label="Projects Setting"
             name="project"
-            style="height:600px"
+            style="height:600px; overflow :auto"
             @tab-remove="removeSettingTab"
             :closable="false"
           >
