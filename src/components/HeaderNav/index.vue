@@ -61,6 +61,7 @@
 <script>
 
 import * as loginAPI from '@/api/login'
+import * as projectApi from '@/api/project'
 
 export default {
   name: 'headerNav',
@@ -81,12 +82,11 @@ export default {
   mounted() {},
   methods: {
     createNewProject() {
-      projectAPI.saveProject(this.$requests.api, this.newProjectForm).then(response => {
+      projectApi.saveProject(this.$requests.api, this.newProjectForm).then(response => {
         this.$message({
           message: 'Project Created Successful!',
           type: 'success'
         })
-        this.handleProjectList()
         this.showNewProject = false
         this.$emit('refreshProjectList', "")
       })

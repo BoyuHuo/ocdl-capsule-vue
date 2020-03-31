@@ -18,6 +18,9 @@ export function saveAlgorithm(request, data) {
     return request({
         url: '/rest/project/algorithm',
         method: 'post',
+        headers: {
+            'PROJECT': data.project.ref_id
+        },
         data
     })
 }
@@ -70,6 +73,9 @@ export function deleteProject(request, data) {
     return request({
         url: '/rest/project/config',
         method: 'delete',
+        headers: {
+            'PROJECT': data.ref_id
+        },
         data
     })
 

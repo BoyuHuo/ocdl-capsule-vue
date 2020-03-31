@@ -49,7 +49,7 @@
             @tab-remove="removeSettingTab"
             :closable="false"
           >
-            <project-setting :projectList="projectList"></project-setting>
+            <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
           </el-tab-pane>
         </el-tabs>
       </el-col>
