@@ -1,19 +1,25 @@
 <template>
   <section>
     <vue-canvas-nest :config="cavans_config"></vue-canvas-nest>
-      <header-nav></header-nav>
-      <second-nav @launchContainer="handleLaunchContainer"></second-nav>
+    <header-nav :projectList="projectList" @refreshProjectList="handleProjectList"></header-nav>
+    <second-nav @launchContainer="handleLaunchContainer"></second-nav>
     <side-nav @projectSetting="handleProjectSetting"></side-nav>
 
     <el-row style="margin-top: 20px;">
       <el-col :span="20" :offset="2">
-        <el-tabs v-model="editableTabsValue" type="border-card" closable @tab-remove="removeTab" style="overflow :auto">
+        <el-tabs
+          v-model="editableTabsValue"
+          type="border-card"
+          closable
+          @tab-remove="removeTab"
+          style="overflow :auto"
+        >
           <el-tab-pane
             v-for="(item) in editableTabs"
             :key="item.name"
             :label="item.title"
             :name="item.name"
-            style="height:600px; overflow :auto"
+            style="height:550px; overflow :auto"
           >
             <el-popover
               v-if="item.type=='notebook'"
@@ -39,11 +45,23 @@
             key="projectSetting"
             label="Projects Setting"
             name="project"
-            style="height:600px; overflow :auto"
+            style="height:550px; overflow :auto"
             @tab-remove="removeSettingTab"
             :closable="false"
           >
-            <project-setting></project-setting>
+            <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
+          </el-tab-pane>
+
+          <el-tab-pane
+            v-if="isModelCenterShow"
+            key="modelCenter"
+            label="Model Center"
+            name="model"
+            style="height:550px; overflow :auto"
+            @tab-remove="removeSettingTab"
+            :closable="false"
+          >
+            <model-center :projectList="projectList" @refreshProjectList="handleProjectList"></model-center>
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -56,8 +74,10 @@ import SecondNav from '@/components/SecondNav'
 import SideNav from '@/components/SideNav'
 import vueCanvasNest from 'vue-canvas-nest'
 import ProjectSetting from '@/components/ProjectSetting'
+import ModelCenter from '@/components/ModelCenter'
 
 import * as modelApi from '@/api/model'
+import * as projectAPI from '@/api/project'
 export default {
   data() {
     return {
@@ -68,13 +88,16 @@ export default {
         count: 120
       },
       isProjectSettingShow: true,
+      isModelCenterShow: true,
       isCollapse: true,
       editableTabsValue: 'project',
       editableTabs: [],
-      tabIndex: 2
+      tabIndex: 2,
+
+      projectList: JSON.parse(this.$store.getters.projectList)
     }
   },
-  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting },
+  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting, ModelCenter },
 
   mounted() {},
 
@@ -128,6 +151,12 @@ export default {
           message: 'Models have been submited successful!',
           type: 'success'
         })
+      })
+    },
+    handleProjectList() {
+      projectAPI.getProject(this.$requests.api).then(response => {
+        this.$store.commit('SET_PROJECTLIST', response.data)
+        this.projectList = response.data
       })
     },
     handleProjectSetting(data) {

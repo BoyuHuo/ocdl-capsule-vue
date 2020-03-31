@@ -59,11 +59,13 @@
   </section>
 </template>
 <script>
-import * as projectAPI from '@/api/project'
+
 import * as loginAPI from '@/api/login'
+import * as projectApi from '@/api/project'
 
 export default {
   name: 'headerNav',
+  props: ['projectList'],
   data() {
     return {
       name: this.$store.getters.name,
@@ -73,7 +75,6 @@ export default {
         description: ''
       },
 
-      projectList: JSON.parse(this.$store.getters.projectList),
       currentProject: JSON.parse(this.$store.getters.project)
     }
   },
@@ -81,13 +82,13 @@ export default {
   mounted() {},
   methods: {
     createNewProject() {
-      projectAPI.saveProject(this.$requests.api, this.newProjectForm).then(response => {
+      projectApi.saveProject(this.$requests.api, this.newProjectForm).then(response => {
         this.$message({
           message: 'Project Created Successful!',
           type: 'success'
         })
-        this.handleProjectList()
         this.showNewProject = false
+        this.$emit('refreshProjectList', "")
       })
     },
     selectProject(project) {
@@ -98,18 +99,13 @@ export default {
         type: 'success'
       })
     },
-    handleProjectList() {
-      projectAPI.getProject(this.$requests.api).then(response => {
-        this.$store.commit('SET_PROJECTLIST', response.data)
-        this.projectList = response.data
-      })
-    },
+
     logout() {
       loginAPI.logout(this.$requests.api).then(response => {
         this.$store.commit('LOG_OUT')
         this.$router.push('login')
       })
-    }
+    },
   }
 }
 </script>

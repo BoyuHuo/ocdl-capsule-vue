@@ -1,10 +1,13 @@
 
 // get all model according project
 // project is enclosed in the header
-export function getModelList(request) {
+export function getModelList(request, project) {
     return request({
         url: '/rest/model/',
-        method: 'get'
+        method: 'get',
+        headers: {
+            'PROJECT': project
+        },
     })
 }
 
@@ -42,7 +45,7 @@ export function release(request, data) {
 
 // add user token and project refId in header
 // data is a Model obj
-export function initModelToStage(request,project) {
+export function initModelToStage(request, project) {
     return request({
         url: '/rest/model/init',
         method: 'post',
