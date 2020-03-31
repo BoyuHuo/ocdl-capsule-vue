@@ -14,22 +14,25 @@ export function getAlgorithm(request, data, page, size) {
 }
 
 // data is Algorithm object
-export function saveAlgorithm(request, data) {
+export function saveAlgorithm(request, data, project) {
     return request({
         url: '/rest/project/algorithm',
         method: 'post',
         headers: {
-            'PROJECT': data.project.ref_id
+            'PROJECT': project.project.ref_id
         },
         data
     })
 }
 
 // data is List<Algorithm>
-export function batchDeleteAlgorithm(request, data) {
+export function batchDeleteAlgorithm(request, data, project) {
     return request({
         url: '/rest/project/algorithm',
         method: 'delete',
+        headers: {
+            'PROJECT': project.project.ref_id
+        },
         data
     })
 
@@ -45,7 +48,6 @@ export function getProjectConfig(request, projectId) {
             id: projectId
         }
     })
-
 }
 
 // save Project object, including create and update
@@ -138,19 +140,25 @@ export function getSuffix(request, data) {
 }
 
 // data is Suffix object
-export function createSuffix(request, data) {
+export function createSuffix(request, data, project) {
     return request({
         url: '/rest/project/suffix',
         method: 'post',
+        headers: {
+            'PROJECT': project.project.ref_id
+        },
         data
     })
 }
 
 // data is List<Suffix>
-export function batchDeleteSuffix(request, data) {
+export function batchDeleteSuffix(request, data, project) {
     return request({
         url: '/rest/project/suffix',
         method: 'delete',
+        headers: {
+            'PROJECT': project.project.ref_id
+        },
         data
     })
 }

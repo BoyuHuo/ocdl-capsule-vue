@@ -47,13 +47,14 @@
                   <div v-for="(o,k) in props.row.project.algorithm_list" :key="k" class="text item">
                     <p>
                       <el-row>
-                        <el-col :span="6">{{ o.user.username }}</el-col>
-                        <el-col :span="10">{{ o.user.email }}</el-col>
-                        <el-col :span="4">{{ o.role.name }}</el-col>
+                        <el-col :span="6">{{ o.name }}</el-col>
+                        <el-col :span="4">{{ o.current_cached_version }}</el-col>
+                        <el-col :span="4">{{ o.current_released_version }}</el-col>
+                        <el-col :span="6">{{ o.description }}</el-col>
                         <el-col :span="4" style="text-align:right">
                           <a
                             href="javascript:void(0);"
-                            @click="alert(123)"
+                            @click="deleteAlgorithm(o.id)"
                             style="color:#409EFF"
                           >Delete</a>
                         </el-col>
@@ -76,13 +77,12 @@
                   <div v-for="(o,k) in props.row.project.suffix_list" :key="k" class="text item">
                     <p>
                       <el-row>
-                        <el-col :span="6">{{ o.user.username }}</el-col>
-                        <el-col :span="10">{{ o.user.email }}</el-col>
-                        <el-col :span="4">{{ o.role.name }}</el-col>
+                        <el-col :span="6">*.{{ o.name }}</el-col>
+                        <el-col :span="10">{{ o.created_at|dateFilter }}</el-col>
                         <el-col :span="4" style="text-align:right">
                           <a
                             href="javascript:void(0);"
-                            @click="alert(123)"
+                            @click="deleteSuffix(o.id)"
                             style="color:#409EFF"
                           >Delete</a>
                         </el-col>
@@ -149,10 +149,10 @@
       <!-- Suffix dialog -->
 
       <el-dialog title="Add Suffix" :visible.sync="isNewSuffixShow" width="30%">
-        <span>这是一段信息</span>
+        <el-input v-model="newSuffix.name" placeholder="Suffix(eg. *.model)" style="padding:5px"></el-input>
         <span slot="footer" class="dialog-footer">
           <el-button @click="isNewSuffixShow = false">cancel</el-button>
-          <el-button type="primary" @click="isNewSuffixShow = false">Confirm</el-button>
+          <el-button type="primary" @click="addSuffix">Confirm</el-button>
         </span>
       </el-dialog>
     </template>
@@ -191,13 +191,46 @@ export default {
       })
     },
     addAlgorithm: function() {
-      this.newAlgorithm.project = this.currentSelectProject
-      projectApi.saveAlgorithm(this.$requests.api, this.newAlgorithm).then(response => {
+      this.newAlgorithm.project = { id: this.currentSelectProject.id }
+
+      projectApi.saveAlgorithm(this.$requests.api, this.newAlgorithm, JSON.parse(this.$store.getters.project)).then(response => {
         this.$message({
-          message: 'Delete successful!',
+          message: 'Algorithm created successful!',
           type: 'success'
         })
         this.isNewAlgorithmShow = false
+        this.$emit('refreshProjectList', '')
+        this.newAlgorithm = {}
+      })
+    },
+    deleteAlgorithm: function(id) {
+      projectApi.batchDeleteAlgorithm(this.$requests.api, [{ id: id }], JSON.parse(this.$store.getters.project)).then(response => {
+        this.$message({
+          message: 'Algorithm delete successful!',
+          type: 'success'
+        })
+        this.$emit('refreshProjectList', '')
+      })
+    },
+    addSuffix: function() {
+      this.newSuffix.project = { id: this.currentSelectProject.id }
+
+      projectApi.createSuffix(this.$requests.api, this.newSuffix, JSON.parse(this.$store.getters.project)).then(response => {
+        this.$message({
+          message: 'Suffix add successful!',
+          type: 'success'
+        })
+        this.isNewSuffixShow = false
+        this.$emit('refreshProjectList', '')
+        this.newSuffix = {}
+      })
+    },
+    deleteSuffix: function(id) {
+      projectApi.batchDeleteSuffix(this.$requests.api, [{ id: id }], JSON.parse(this.$store.getters.project)).then(response => {
+        this.$message({
+          message: 'Suffix delete successful!',
+          type: 'success'
+        })
         this.$emit('refreshProjectList', '')
       })
     },
