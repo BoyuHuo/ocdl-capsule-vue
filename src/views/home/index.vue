@@ -19,7 +19,7 @@
             :key="item.name"
             :label="item.title"
             :name="item.name"
-            style="height:600px; overflow :auto"
+            style="height:550px; overflow :auto"
           >
             <el-popover
               v-if="item.type=='notebook'"
@@ -45,11 +45,23 @@
             key="projectSetting"
             label="Projects Setting"
             name="project"
-            style="height:600px; overflow :auto"
+            style="height:550px; overflow :auto"
             @tab-remove="removeSettingTab"
             :closable="false"
           >
             <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
+          </el-tab-pane>
+
+          <el-tab-pane
+            v-if="isModelCenterShow"
+            key="modelCenter"
+            label="Model Center"
+            name="model"
+            style="height:550px; overflow :auto"
+            @tab-remove="removeSettingTab"
+            :closable="false"
+          >
+            <model-center :projectList="projectList" @refreshProjectList="handleProjectList"></model-center>
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -62,6 +74,7 @@ import SecondNav from '@/components/SecondNav'
 import SideNav from '@/components/SideNav'
 import vueCanvasNest from 'vue-canvas-nest'
 import ProjectSetting from '@/components/ProjectSetting'
+import ModelCenter from '@/components/ModelCenter'
 
 import * as modelApi from '@/api/model'
 import * as projectAPI from '@/api/project'
@@ -75,6 +88,7 @@ export default {
         count: 120
       },
       isProjectSettingShow: true,
+      isModelCenterShow: true,
       isCollapse: true,
       editableTabsValue: 'project',
       editableTabs: [],
@@ -83,7 +97,7 @@ export default {
       projectList: JSON.parse(this.$store.getters.projectList)
     }
   },
-  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting },
+  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting, ModelCenter },
 
   mounted() {},
 
