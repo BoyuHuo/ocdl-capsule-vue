@@ -317,13 +317,13 @@ export default {
         algorithm: model.algorithm,
         suffix: model.suffix,
         project: { id: model.project.id },
-        isReleased: true,
+        isReleased: false,
         created_at: model.created_at,
         deleted_at: null,
         is_deleted: false
       }
       //Push decision
-      modelApi.pushDecision(this.$requests.api, data, JSON.parse(this.$store.getters.project).project.ref_id).then(response => {
+      modelApi.release(this.$requests.api, data, JSON.parse(this.$store.getters.project).project.ref_id).then(response => {
         this.handleModelList()
         this.$message({
           message: 'Model has been released!',

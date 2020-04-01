@@ -7,22 +7,11 @@
       text-color="#fff"
       active-text-color="#ffffff"
     >
-      <el-menu-item index="1">处理中心</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="3" disabled>消息中心</el-menu-item>
+      <el-menu-item index="1" @click="$emit('openProjectManagement','')">PROJECT MANAGEMENT</el-menu-item>
+      <el-menu-item index="2" @click="$emit('openModelCenter','')">MODEL CENTER</el-menu-item>
+      <el-menu-item index="3" disabled>MY EVENT</el-menu-item>
       <el-menu-item index="4">
-        <a href="https://www.ele.me" target="_blank">订单管理</a>
+        <a href="https://www.ele.me" target="_blank">HELP</a>
       </el-menu-item>
 
       <transition
@@ -39,12 +28,7 @@
             active-text="GPU"
             inactive-text="CPU"
           ></el-switch>
-          <el-button
-            type="primary"
-            plain
-            style="margin-left:20px"
-            @click="launchContainer"
-          >Launch</el-button>
+          <el-button type="primary" plain style="margin-left:20px" @click="launchContainer">Launch</el-button>
         </div>
 
         <el-menu-item
@@ -76,7 +60,7 @@ export default {
       let resType = this.useGPU ? 'gpu' : 'cpu'
       containerApi.getContainer(this.$requests.api, resType).then(response => {
         this.$emit('launchContainer', response.data)
-        this.showLaunchController=!this.showLaunchController
+        this.showLaunchController = !this.showLaunchController
       })
     }
   }

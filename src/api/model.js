@@ -37,10 +37,13 @@ export function pushDecision(request, data, project) {
 
 // add user token and project refId in header
 // data is a Model obj
-export function release(request, data) {
+export function release(request, data, project) {
     return request({
         url: '/rest/model/',
         method: 'patch',
+        headers: {
+            'PROJECT': project
+        },
         data
     })
 }

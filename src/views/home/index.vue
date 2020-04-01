@@ -2,7 +2,11 @@
   <section>
     <vue-canvas-nest :config="cavans_config"></vue-canvas-nest>
     <header-nav :projectList="projectList" @refreshProjectList="handleProjectList"></header-nav>
-    <second-nav @launchContainer="handleLaunchContainer"></second-nav>
+    <second-nav
+      @launchContainer="handleLaunchContainer"
+      @openProjectManagement="openProjectSetting"
+      @openModelCenter="openModelCenter"
+    ></second-nav>
     <side-nav @projectSetting="handleProjectSetting"></side-nav>
 
     <el-row style="margin-top: 20px;">
@@ -44,31 +48,53 @@
           </el-tab-pane>
 
           <el-tab-pane
-            v-if="isProjectSettingShow"
             key="projectSetting"
             label="Projects Setting"
             name="project"
             style="height:600px; overflow :auto"
-            @tab-remove="removeSettingTab"
             :closable="false"
           >
             <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
           </el-tab-pane>
 
           <el-tab-pane
-            v-if="isModelCenterShow"
             key="modelCenter"
             label="Model Center"
             name="model"
             style="height:600px; overflow :auto"
-            @tab-remove="removeSettingTab"
             :closable="false"
           >
-            <model-center :projectList="projectList" @refreshProjectList="handleProjectList"></model-center>
+            <model-center></model-center>
           </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
+
+    <el-dialog
+      title="Project Management"
+      :visible.sync="isProjectSettingShow"
+      @open="handleProjectList"
+      width="80%"
+    >
+      <project-setting :projectList="projectList"></project-setting>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isProjectSettingShow = false">Close</el-button>
+        <el-button type="primary" @click="isProjectSettingShow = false">OK</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog
+      title="Model Center"
+      :visible.sync="isModelCenterShow"
+      @open="handleProjectList"
+      width="80%"
+    >
+      <model-center></model-center>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isModelCenterShow = false">Close</el-button>
+        <el-button type="primary" @click="isModelCenterShow = false">OK</el-button>
+      </span>
+    </el-dialog>
   </section>
 </template>
 <script>
@@ -90,8 +116,8 @@ export default {
         zIndex: -2,
         count: 120
       },
-      isProjectSettingShow: true,
-      isModelCenterShow: true,
+      isProjectSettingShow: false,
+      isModelCenterShow: false,
       isCollapse: true,
       editableTabsValue: 'project',
       editableTabs: [],
@@ -117,18 +143,11 @@ export default {
       this.editableTabsValue = newTabName
     },
 
-    addProjectSettingTab(title) {
-      let newTabName = ++this.tabIndex + ''
-      this.editableTabs.push({
-        title: title,
-        name: newTabName,
-        content: '<div :is="ProjectSetting" ></div>',
-        type: 'project'
-      })
-      this.editableTabsValue = newTabName
+    openProjectSetting() {
+      this.isProjectSettingShow = true
     },
-    removeSettingTab() {
-      this.isProjectSettingShow = false
+    openModelCenter() {
+      this.isModelCenterShow = true
     },
     removeTab(targetName) {
       let tabs = this.editableTabs
