@@ -19,7 +19,7 @@
             :key="item.name"
             :label="item.title"
             :name="item.name"
-            style="height:550px; overflow :auto"
+            style="height:600px; overflow :auto"
           >
             <el-popover
               v-if="item.type=='notebook'"
@@ -28,7 +28,7 @@
               style="position:fixed; margin-top:550px; margin-left:10px "
             >
               <el-button-group>
-                <el-button type="primary">Open In A New Browser</el-button>
+                <el-button type="primary" @click="openNotebookInNewBroser(item.url)">Open In A New Browser</el-button>
                 <el-button type="primary" @click="handleStaging">Stage Models</el-button>
                 <el-button type="primary">Release Resources</el-button>
               </el-button-group>
@@ -45,7 +45,7 @@
             key="projectSetting"
             label="Projects Setting"
             name="project"
-            style="height:550px; overflow :auto"
+            style="height:600px; overflow :auto"
             @tab-remove="removeSettingTab"
             :closable="false"
           >
@@ -57,7 +57,7 @@
             key="modelCenter"
             label="Model Center"
             name="model"
-            style="height:550px; overflow :auto"
+            style="height:600px; overflow :auto"
             @tab-remove="removeSettingTab"
             :closable="false"
           >
@@ -108,7 +108,8 @@ export default {
         title: title,
         name: newTabName,
         content: '<iframe src=http://' + url + ' style="width:100%; height:100%"></iframe>',
-        type: 'notebook'
+        type: 'notebook',
+        url:url
       })
       this.editableTabsValue = newTabName
     },
@@ -141,6 +142,9 @@ export default {
       }
       this.editableTabsValue = activeName
       this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+    },
+    openNotebookInNewBroser(url) {
+        window.open("http://"+url, '_blank', 'toolbar=yes, width=1300, height=900')
     },
     handleLaunchContainer(data) {
       this.addResourceTab('Juyter Notebook', data.url)
