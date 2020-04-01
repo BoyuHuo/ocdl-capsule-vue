@@ -48,8 +48,10 @@
                     <p>
                       <el-row>
                         <el-col :span="6">{{ o.name }}</el-col>
-                        <el-col :span="4">{{ o.current_cached_version }}</el-col>
-                        <el-col :span="4">{{ o.current_released_version }}</el-col>
+                        <el-col
+                          :span="4"
+                        >v{{ o.current_cached_version }}.{{ o.current_released_version }}</el-col>
+                        <el-col :span="4">{{o.kafka_topic?o.kafka_topic:"None"}}</el-col>
                         <el-col :span="6">{{ o.description }}</el-col>
                         <el-col :span="4" style="text-align:right">
                           <a
@@ -97,7 +99,7 @@
         </el-table-column>
         <el-table-column label="Project Name" prop="project.name"></el-table-column>
         <el-table-column label="Reference ID" prop="project.ref_id"></el-table-column>
-        <el-table-column label="User Number" prop="user.id" width="120"></el-table-column>
+        <el-table-column label="User Number" prop="project.user_roles.length" width="120"></el-table-column>
         <el-table-column label="Your Role" prop="role.name" width="120">
           <template slot-scope="scope">
             <el-tag
@@ -133,6 +135,11 @@
 
       <el-dialog title="New Algorithm" :visible.sync="isNewAlgorithmShow" width="30%">
         <el-input v-model="newAlgorithm.name" placeholder="Name" style="padding:5px"></el-input>
+        <el-input
+          v-model="newAlgorithm.kafka_topic"
+          placeholder="Kafka Channel"
+          style="padding:5px"
+        ></el-input>
         <el-input
           style="padding:5px"
           type="textarea"

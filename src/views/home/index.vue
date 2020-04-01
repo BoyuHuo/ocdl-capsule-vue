@@ -28,7 +28,10 @@
               style="position:fixed; margin-top:550px; margin-left:10px "
             >
               <el-button-group>
-                <el-button type="primary" @click="openNotebookInNewBroser(item.url)">Open In A New Browser</el-button>
+                <el-button
+                  type="primary"
+                  @click="openNotebookInNewBroser(item.url)"
+                >Open In A New Browser</el-button>
                 <el-button type="primary" @click="handleStaging">Stage Models</el-button>
                 <el-button type="primary">Release Resources</el-button>
               </el-button-group>
@@ -109,7 +112,7 @@ export default {
         name: newTabName,
         content: '<iframe src=http://' + url + ' style="width:100%; height:100%"></iframe>',
         type: 'notebook',
-        url:url
+        url: url
       })
       this.editableTabsValue = newTabName
     },
@@ -144,7 +147,7 @@ export default {
       this.editableTabs = tabs.filter(tab => tab.name !== targetName)
     },
     openNotebookInNewBroser(url) {
-        window.open("http://"+url, '_blank', 'toolbar=yes, width=1300, height=900')
+      window.open('http://' + url, '_blank', 'toolbar=yes, width=1300, height=900')
     },
     handleLaunchContainer(data) {
       this.addResourceTab('Juyter Notebook', data.url)

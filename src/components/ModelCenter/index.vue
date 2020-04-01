@@ -103,8 +103,11 @@
             </el-table-column>
             <el-table-column label="Operations" prop="operation" width="200">
               <template slot-scope="scope">
-                <el-button size="mini" type="success">Release</el-button>
-                <el-button size="mini" type="danger" @click="handleRollback(scope.row)">Rollback</el-button>
+                <div v-if="!scope.row.isReleased">
+                  <el-button size="mini" type="success" @click="handleRelease(scope.row)">Release</el-button>
+                  <el-button size="mini" type="danger" @click="handleRollback(scope.row)">Rollback</el-button>
+                </div>
+                <p v-if="scope.row.isReleased">Model has been published!</p>
               </template>
             </el-table-column>
           </el-table>
@@ -233,6 +236,7 @@ export default {
           message: 'Model has been approved!',
           type: 'success'
         })
+        this.approvalBoxVisible = false
       })
     },
 
@@ -267,6 +271,7 @@ export default {
           message: 'Model has been rejected!',
           type: 'success'
         })
+        this.rejectBoxVisible = false
       })
     },
 
