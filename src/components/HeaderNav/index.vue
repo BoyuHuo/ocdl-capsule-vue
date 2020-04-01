@@ -62,6 +62,7 @@
 
 import * as loginAPI from '@/api/login'
 import * as projectApi from '@/api/project'
+import Event from '../../main.js'
 
 export default {
   name: 'headerNav',
@@ -98,6 +99,7 @@ export default {
         message: 'Switch to project - ' + project.project.name,
         type: 'success'
       })
+       Event.$emit('refreshModels','')
     },
 
     logout() {
