@@ -17,7 +17,7 @@
                   </div>
                   <div v-for="(o,k) in props.row.project.user_roles" :key="k" class="text item">
                     <p>
-                      <el-row>
+                      <el-row style="padding-top:3px;padding-bottom:3px">
                         <el-col :span="6">{{ o.user.username }}</el-col>
                         <el-col :span="10">{{ o.user.email }}</el-col>
                         <el-col :span="4">{{ o.role.name }}</el-col>
@@ -46,7 +46,7 @@
                   </div>
                   <div v-for="(o,k) in props.row.project.algorithm_list" :key="k" class="text item">
                     <p>
-                      <el-row>
+                      <el-row style="padding-top:3px;padding-bottom:3px">
                         <el-col :span="6">{{ o.name }}</el-col>
                         <el-col
                           :span="4"
@@ -83,7 +83,7 @@
                   </div>
                   <div v-for="(o,k) in props.row.project.suffix_list" :key="k" class="text item">
                     <p>
-                      <el-row>
+                      <el-row style="padding-top:3px;padding-bottom:3px">
                         <el-col :span="6">*.{{ o.name }}</el-col>
                         <el-col :span="10">{{ o.created_at|dateFilter }}</el-col>
                         <el-col :span="4" style="text-align:right">

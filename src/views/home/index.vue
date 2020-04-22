@@ -29,54 +29,16 @@
           style="overflow :auto"
         >
           <el-tab-pane
-            v-for="(item) in editableTabs"
-            :key="item.name"
-            :label="item.title"
-            :name="item.name"
-            style="height:600px; overflow :auto"
-          >
-            <el-popover
-              v-if="item.type=='notebook'"
-              placement="right"
-              trigger="hover"
-              style="position:fixed; margin-top:550px; margin-left:10px "
-            >
-              <el-button-group>
-                <el-button
-                  type="primary"
-                  @click="openNotebookInNewBroser(item.url)"
-                >Open In A New Browser</el-button>
-                <el-button type="primary" @click="handleStaging">Stage Models</el-button>
-                <el-button type="primary">Release Resources</el-button>
-              </el-button-group>
-              <el-button slot="reference" type="warning" plain>
-                Operations
-                <i class="el-icon-arrow-right el-icon--right"></i>
-              </el-button>
-            </el-popover>
-            <span v-html="item.content"></span>
-          </el-tab-pane>
-
-          <el-tab-pane
-            key="projectSetting"
-            label="Projects Setting"
-            name="project"
+            key="welcome"
+            :index="1"
+            label="Welcome"
+            name="welcome"
             style="height:600px; overflow :auto"
             :closable="false"
           >
-            <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
-          </el-tab-pane>
-
-   
-
-          <el-tab-pane
-            key="modelCenter"
-            label="Model Center"
-            name="model"
-            style="height:600px; overflow :auto"
-            :closable="false"
-          >
-            <model-center></model-center>
+            <div class="markdown" style="padding-left:15rem;padding-right:15rem">
+              <markdown></markdown>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -116,8 +78,7 @@ import SideNav from '@/components/SideNav'
 import vueCanvasNest from 'vue-canvas-nest'
 import ProjectSetting from '@/components/ProjectSetting'
 import ModelCenter from '@/components/ModelCenter'
-
-
+import Markdown from '@/components/Markdown'
 
 import * as modelApi from '@/api/model'
 import * as projectAPI from '@/api/project'
@@ -133,14 +94,13 @@ export default {
       isProjectSettingShow: false,
       isModelCenterShow: false,
       isCollapse: true,
-      editableTabsValue: 'project',
+      editableTabsValue: 'welcome',
       editableTabs: [],
-      tabIndex: 2,
-
+      tabIndex: 1,
       projectList: JSON.parse(this.$store.getters.projectList)
     }
   },
-  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting, ModelCenter },
+  components: { HeaderNav, SecondNav, SideNav, vueCanvasNest, ProjectSetting, ModelCenter, Markdown },
 
   mounted() {},
 

@@ -276,12 +276,6 @@ export default {
         is_inner_user: true
       },
       images: [require('../../assets/img/login2.png'), require('../../assets/img/login3.png')],
-      cavans_config: {
-        color: '0,0,255',
-        opacity: 0.7,
-        zIndex: -2,
-        count: 120
-      },
 
       vedioCanPlay: false,
       fixStyle: ''
