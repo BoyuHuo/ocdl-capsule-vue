@@ -52,7 +52,12 @@
                           :span="4"
                         >v{{ o.current_cached_version }}.{{ o.current_released_version }}</el-col>
                         <el-col :span="4">{{o.kafka_topic?o.kafka_topic:"None"}}</el-col>
-                        <el-col :span="6">{{ o.description }}</el-col>
+                        <!-- <el-col :span="6">{{ o.description }}</el-col> -->
+                        <el-col :span="6">
+                          <el-tooltip :content="o.description" placement="top">
+                            <el-button>Description</el-button>
+                          </el-tooltip>
+                        </el-col>
                         <el-col :span="4" style="text-align:right">
                           <a
                             href="javascript:void(0);"

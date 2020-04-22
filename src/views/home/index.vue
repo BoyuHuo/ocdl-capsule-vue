@@ -11,6 +11,16 @@
 
     <el-row style="margin-top: 20px;">
       <el-col :span="20" :offset="2">
+        <el-tab-pane
+          key="projectSetting"
+          label="Projects Setting"
+          name="project"
+          style="height:600px; overflow :auto"
+          :closable="false"
+        >
+          <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
+        </el-tab-pane>
+
         <el-tabs
           v-model="editableTabsValue"
           type="border-card"
@@ -56,6 +66,8 @@
           >
             <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
           </el-tab-pane>
+
+   
 
           <el-tab-pane
             key="modelCenter"
@@ -104,6 +116,8 @@ import SideNav from '@/components/SideNav'
 import vueCanvasNest from 'vue-canvas-nest'
 import ProjectSetting from '@/components/ProjectSetting'
 import ModelCenter from '@/components/ModelCenter'
+
+
 
 import * as modelApi from '@/api/model'
 import * as projectAPI from '@/api/project'
