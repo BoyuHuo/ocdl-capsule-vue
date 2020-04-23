@@ -45,7 +45,7 @@
               style="position:fixed; margin-top:550px; margin-left:10px "
             >
               <el-button-group>
-                <el-button type="primary">Open In A New Browser</el-button>
+                <el-button type="primary" @click="openNotebookInNewBroser(item.url)">Open In A New Browser</el-button>
                 <el-button type="primary" @click="handleStaging">Stage Models</el-button>
                 <el-button type="primary">Release Resources</el-button>
               </el-button-group>

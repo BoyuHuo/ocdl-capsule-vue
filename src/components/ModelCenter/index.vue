@@ -27,7 +27,7 @@
                 <el-button size="mini" type="success" @click="openApprovalBox(scope.row)">Approve</el-button>
                 <el-button size="mini" type="danger" @click="openRejectBox(scope.row)">Reject</el-button>
 
-                <el-dialog title="Approve Panel" :visible.sync="approvalBoxVisible" width="30%">
+                <el-dialog title="Approve Panel" :visible.sync="approvalBoxVisible" width="30%" append-to-body>
                   <p>Model Name: {{selectModel.name}}</p>
                   <p>Owner: {{selectModel.owner.username}}</p>
                   <p>Created Time:{{selectModel.created_at|dateFilter}}</p>
@@ -64,7 +64,7 @@
                   </span>
                 </el-dialog>
 
-                <el-dialog title="Reject Panel" :visible.sync="rejectBoxVisible" width="30%">
+                <el-dialog title="Reject Panel" :visible.sync="rejectBoxVisible" width="30%" append-to-body>
                   <p>Model Name: {{selectModel.name}}</p>
                   <p>Owner: {{selectModel.owner.username}}</p>
                   <p>Created Time:{{selectModel.created_at|dateFilter}}</p>

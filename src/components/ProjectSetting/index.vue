@@ -34,7 +34,7 @@
                   <div v-if="props.row.project.user_roles.length==0">No Users</div>
                 </el-card>
               </el-col>
-              <el-col :span="8" style="padding-left:5px;padding-right:5px">
+              <el-col :span="9" style="padding-left:5px;padding-right:5px">
                 <el-card class="box-card" shadow="hover">
                   <div slot="header" class="clearfix">
                     <span>Algorithms</span>
@@ -47,9 +47,9 @@
                   <div v-for="(o,k) in props.row.project.algorithm_list" :key="k" class="text item">
                     <p>
                       <el-row style="padding-top:3px;padding-bottom:3px">
-                        <el-col :span="6">{{ o.name }}</el-col>
+                        <el-col :span="5">{{ o.name }}</el-col>
                         <el-col
-                          :span="4"
+                          :span="3"
                         >v{{ o.current_cached_version }}.{{ o.current_released_version }}</el-col>
                         <el-col :span="4">{{o.kafka_topic?o.kafka_topic:"None"}}</el-col>
                         <!-- <el-col :span="6">{{ o.description }}</el-col> -->
@@ -58,7 +58,13 @@
                             <el-button>Description</el-button>
                           </el-tooltip>
                         </el-col>
-                        <el-col :span="4" style="text-align:right">
+                        <el-col :span="6" style="text-align:right">
+                          <a
+                            href="javascript:void(0);"
+                            @click="openEditAlgorithm(o)"
+                            style="color:#409EFF"
+                          >Edit</a>
+                          &nbsp;
                           <a
                             href="javascript:void(0);"
                             @click="deleteAlgorithm(o.id)"
@@ -71,7 +77,7 @@
                   <div v-if="props.row.project.algorithm_list.length==0">No algorithms</div>
                 </el-card>
               </el-col>
-              <el-col :span="8" style="padding-left:5px">
+              <el-col :span="7" style="padding-left:5px">
                 <el-card class="box-card" shadow="hover">
                   <div slot="header" class="clearfix">
                     <span>Suffix List</span>
@@ -129,7 +135,7 @@
 
       <!-- Invite dialog -->
 
-      <el-dialog title="Invite" :visible.sync="isInviteUserShow" width="30%">
+      <el-dialog title="Invite" :visible.sync="isInviteUserShow" width="30%" append-to-body>
         <span slot="footer" class="dialog-footer">
           <el-button @click="isInviteUserShow = false">Cancel</el-button>
           <el-button type="primary" @click="isInviteUserShow = false">Confirm</el-button>
@@ -138,7 +144,7 @@
 
       <!-- Algorithm dialog -->
 
-      <el-dialog title="New Algorithm" :visible.sync="isNewAlgorithmShow" width="30%">
+      <el-dialog title="New Algorithm" :visible.sync="isNewAlgorithmShow" width="30%" append-to-body>
         <el-input v-model="newAlgorithm.name" placeholder="Name" style="padding:5px"></el-input>
         <el-input
           v-model="newAlgorithm.kafka_topic"
@@ -158,9 +164,29 @@
         </span>
       </el-dialog>
 
+      <el-dialog title="Edit Algorithm" :visible.sync="isEditAlgorithmShow" width="30%" append-to-body>
+        <el-input v-model="editAlgorithm.name" disabled placeholder="Name" style="padding:5px"></el-input>
+        <el-input
+          v-model="editAlgorithm.kafka_topic"
+          placeholder="Kafka Channel"
+          style="padding:5px"
+        ></el-input>
+        <el-input
+          style="padding:5px"
+          type="textarea"
+          autosize
+          placeholder="Descripttion"
+          v-model="editAlgorithm.description"
+        ></el-input>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="isEditAlgorithmShow = false">Cancel</el-button>
+          <el-button type="primary" @click="updateAlgorithm">Confirm</el-button>
+        </span>
+      </el-dialog>
+
       <!-- Suffix dialog -->
 
-      <el-dialog title="Add Suffix" :visible.sync="isNewSuffixShow" width="30%">
+      <el-dialog title="Add Suffix" :visible.sync="isNewSuffixShow" width="30%" append-to-body>
         <el-input v-model="newSuffix.name" placeholder="Suffix(eg. *.model)" style="padding:5px"></el-input>
         <span slot="footer" class="dialog-footer">
           <el-button @click="isNewSuffixShow = false">cancel</el-button>
@@ -182,9 +208,11 @@ export default {
       isNewAlgorithmShow: false,
       isInviteUserShow: false,
       isNewSuffixShow: false,
+      isEditAlgorithmShow: false,
 
       //Form
       newAlgorithm: {},
+      editAlgorithm: {},
       newUser: {},
       newSuffix: {},
 
@@ -213,6 +241,18 @@ export default {
         this.isNewAlgorithmShow = false
         this.$emit('refreshProjectList', '')
         this.newAlgorithm = {}
+      })
+    },
+    updateAlgorithm:function(){
+
+       projectApi.saveAlgorithm(this.$requests.api, this.editAlgorithm, JSON.parse(this.$store.getters.project)).then(response => {
+        this.$message({
+          message: 'Algorithm save successful!',
+          type: 'success'
+        })
+        this.isEditAlgorithmShow = false
+        this.$emit('refreshProjectList', '')
+        this.editAlgorithm = {}
       })
     },
     deleteAlgorithm: function(id) {
@@ -245,6 +285,12 @@ export default {
         })
         this.$emit('refreshProjectList', '')
       })
+    },
+
+
+    openEditAlgorithm: function(algorithm){
+      this.editAlgorithm = algorithm;
+      this.isEditAlgorithmShow = true;
     },
     openInvite: function(project) {
       this.currentSelectProject = project
