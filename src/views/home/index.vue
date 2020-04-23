@@ -11,16 +11,6 @@
 
     <el-row style="margin-top: 20px;">
       <el-col :span="20" :offset="2">
-        <el-tab-pane
-          key="projectSetting"
-          label="Projects Setting"
-          name="project"
-          style="height:600px; overflow :auto"
-          :closable="false"
-        >
-          <project-setting :projectList="projectList" @refreshProjectList="handleProjectList"></project-setting>
-        </el-tab-pane>
-
         <el-tabs
           v-model="editableTabsValue"
           type="border-card"
@@ -39,6 +29,32 @@
             <div class="markdown" style="padding-left:15rem;padding-right:15rem">
               <markdown></markdown>
             </div>
+          </el-tab-pane>
+
+          <el-tab-pane
+            v-for="(item) in editableTabs"
+            :key="item.name"
+            :label="item.title"
+            :name="item.name"
+            style="height:600px; overflow :auto"
+          >
+            <el-popover
+              v-if="item.type=='notebook'"
+              placement="right"
+              trigger="hover"
+              style="position:fixed; margin-top:550px; margin-left:10px "
+            >
+              <el-button-group>
+                <el-button type="primary">Open In A New Browser</el-button>
+                <el-button type="primary" @click="handleStaging">Stage Models</el-button>
+                <el-button type="primary">Release Resources</el-button>
+              </el-button-group>
+              <el-button slot="reference" type="warning" plain>
+                Operations
+                <i class="el-icon-arrow-right el-icon--right"></i>
+              </el-button>
+            </el-popover>
+            <span v-html="item.content"></span>
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -96,7 +112,7 @@ export default {
       isCollapse: true,
       editableTabsValue: 'welcome',
       editableTabs: [],
-      tabIndex: 1,
+      tabIndex: 0,
       projectList: JSON.parse(this.$store.getters.projectList)
     }
   },
@@ -107,14 +123,17 @@ export default {
   methods: {
     addResourceTab(title, url) {
       let newTabName = ++this.tabIndex + ''
-      this.editableTabs.push({
-        title: title,
-        name: newTabName,
-        content: '<iframe src=http://' + url + ' style="width:100%; height:100%"></iframe>',
-        type: 'notebook',
-        url: url
-      })
-      this.editableTabsValue = newTabName
+      var t = setTimeout(() => {
+        this.editableTabs.push({
+          title: title,
+          name: newTabName,
+          content: '<iframe src=http://' + url + ' style="width:100%; height:100%"></iframe>',
+          type: 'notebook',
+          url: url
+        })
+        this.editableTabsValue = newTabName
+        this.$store.commit('SET_TERMINAL_STATUS', 'Connected')
+      }, 10000)
     },
 
     openProjectSetting() {
@@ -143,7 +162,7 @@ export default {
       window.open('http://' + url, '_blank', 'toolbar=yes, width=1300, height=900')
     },
     handleLaunchContainer(data) {
-      this.addResourceTab('Juyter Notebook', data.url)
+      this.addResourceTab('Jupyter Notebook', data.url)
     },
     handleStaging() {
       modelApi.initModelToStage(this.$requests.api, JSON.parse(this.$store.getters.project).project.ref_id).then(response => {
