@@ -92,11 +92,11 @@
             <el-table-column prop="name" label="Name"></el-table-column>
             <el-table-column prop="status" label="Status" width="100"></el-table-column>
             <el-table-column prop="owner.username" label="Owner"></el-table-column>
-            <el-table-column prop="cachedVersion" label="Cached Version"></el-table-column>
-            <el-table-column prop="releasedVersion" label="Released Version"></el-table-column>
-            <el-table-column prop="lastOperator.username" label="Last Operator"></el-table-column>
-            <el-table-column prop="updatedAt" label="Update Time">
-              <template slot-scope="scope">{{scope.row.updatedAt | dateFilter}}</template>
+            <el-table-column prop="cached_version" label="Cached Version"></el-table-column>
+            <el-table-column prop="released_version" label="Released Version"></el-table-column>
+            <el-table-column prop="last_operator.username" label="Last Operator"></el-table-column>
+            <el-table-column prop="updated_at" label="Update Time">
+              <template slot-scope="scope">{{scope.row.updated_at | dateFilter}}</template>
             </el-table-column>
             <el-table-column prop="created_at" label="Create Time">
               <template slot-scope="scope">{{scope.row.created_at | dateFilter}}</template>
@@ -120,11 +120,11 @@
             <el-table-column prop="name" label="Name"></el-table-column>
             <el-table-column prop="status" label="Status" width="100"></el-table-column>
             <el-table-column prop="owner.username" label="Owner"></el-table-column>
-            <el-table-column prop="cachedVersion" label="Cached Version"></el-table-column>
-            <el-table-column prop="releasedVersion" label="Released Version"></el-table-column>
-            <el-table-column prop="lastOperator.username" label="Last Operator"></el-table-column>
-            <el-table-column prop="updatedAt" label="Update Time">
-              <template slot-scope="scope">{{scope.row.updatedAt | dateFilter}}</template>
+            <el-table-column prop="cached_version" label="Cached Version"></el-table-column>
+            <el-table-column prop="released_version" label="Released Version"></el-table-column>
+            <el-table-column prop="last_operator.username" label="Last Operator"></el-table-column>
+            <el-table-column prop="updated_at" label="Update Time">
+              <template slot-scope="scope">{{scope.row.updated_at | dateFilter}}</template>
             </el-table-column>
             <el-table-column prop="created_at" label="Create Time">
               <template slot-scope="scope">{{scope.row.created_at | dateFilter}}</template>
@@ -189,17 +189,17 @@ export default {
     },
     handleApprove() {
       //Version handle
-      if (!this.selectModel.cachedVersion) {
-        this.selectModel.cachedVersion = 0
-      }
-      if (!this.selectModel.releasedVersion) {
-        this.selectModel.releasedVersion = 0
-      }
-      if (this.approvalForm.isCachedVersion) {
-        this.selectModel.cachedVersion++
-      } else {
-        this.selectModel.releasedVersion++
-      }
+      // if (!this.selectModel.cachedVersion) {
+      //   this.selectModel.cachedVersion = 0
+      // }
+      // if (!this.selectModel.releasedVersion) {
+      //   this.selectModel.releasedVersion = 0
+      // }
+      // if (this.approvalForm.isCachedVersion) {
+      //   this.selectModel.cachedVersion++
+      // } else {
+      //   this.selectModel.releasedVersion++
+      // }
 
       //Comments handle
       if (this.approvalForm.comment != '') {
@@ -217,8 +217,8 @@ export default {
         status: 'APPROVED',
         comments: this.approvalForm.comment,
         refId: this.selectModel.refId,
-        cachedVersion: this.selectModel.cachedVersion,
-        releasedVersion: this.selectModel.releasedVersion,
+        // cachedVersion: this.selectModel.cachedVersion,
+        // releasedVersion: this.selectModel.releasedVersion,
         updatedAt: new Date().getTime(),
         algorithm: { id: this.approvalForm.algorithm },
         suffix: this.selectModel.suffix,
@@ -226,7 +226,8 @@ export default {
         isReleased: false,
         created_at: this.selectModel.created_at,
         deleted_at: null,
-        is_deleted: false
+        is_deleted: false,
+        is_cached_version: this.approvalForm.isCachedVersion
       }
 
       //Push decision
