@@ -35,7 +35,7 @@
                   <el-select
                     v-model="approvalForm.algorithm"
                     style="margin-bottom:20px"
-                    placeholder="请选择"
+                    placeholder="Select an algorithm"
                   >
                     <el-option
                       v-for="item in algorithms"
@@ -184,7 +184,6 @@ export default {
     handleModelList() {
       modelApi.getModelList(this.$requests.api, JSON.parse(this.$store.getters.project).project.ref_id).then(response => {
         this.modelList = response.data
-        console.log(response.data)
       })
     },
     handleApprove() {
