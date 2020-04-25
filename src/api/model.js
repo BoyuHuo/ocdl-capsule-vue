@@ -23,10 +23,13 @@ export function getModelListByUser(request) {
 
 // data is a Model obj
 // add user token and project refId in header
-export function pushDecision(request, data) {
+export function pushDecision(request, data, project) {
     return request({
         url: '/rest/model/',
         method: 'put',
+        headers: {
+            'PROJECT': project
+        },
         data
     })
 }
@@ -34,10 +37,13 @@ export function pushDecision(request, data) {
 
 // add user token and project refId in header
 // data is a Model obj
-export function release(request, data) {
+export function release(request, data, project) {
     return request({
         url: '/rest/model/',
         method: 'patch',
+        headers: {
+            'PROJECT': project
+        },
         data
     })
 }

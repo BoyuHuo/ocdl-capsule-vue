@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import App from '@/App.vue'
 //import Vant from 'vant'
@@ -17,10 +16,12 @@ import 'vant/lib/index.css'
 import '@/styles/main.css'
 import '@/styles/common.less'
 import '@/styles/animate.css'
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 
 // 全局注册 dateFilter filtter
 Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
+    Vue.filter(key, filters[key])
 })
 
 Vue.use(Element, { size: 'small', zIndex: 2000 });
@@ -29,13 +30,13 @@ Vue.prototype.$requests = requests
 
 //关闭生产模式下给出的提示
 Vue.config.productionTip = false
-//Vue.use(Vant)
+    //Vue.use(Vant)
 Vue.use(VCharts)
 Vue.use(VueClipboard)
 
 export default new Vue({
-  i18n,
-  router,
-  store,
-  render: h => h(App)
+    i18n,
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

@@ -66,10 +66,8 @@ export default {
   computed: {},
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath)
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath)
     },
     handleToggle() {
       this.isCollapse = !this.isCollapse
